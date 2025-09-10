@@ -67,6 +67,7 @@ h1 button:hover{ transform: scale(1.1); }
     box-shadow:0 6px 10px rgba(0,0,0,0.2);
 }
 
+/* QR կոնտեյներ սկզբում առանց ցանցապատ եզրագծի */
 .qr-container{
     margin-top:15px;
     display:flex;
@@ -74,10 +75,15 @@ h1 button:hover{ transform: scale(1.1); }
     align-items:center;
     gap:8px;
     min-height:50px;
-    border:2px dashed #6a0dad; /* եզրագիծ պատրաստի QR-ի համար */
     border-radius:14px;
     padding:10px;
 }
+
+/* Ցանցապատ եզրագիծը ավելանում է միայն երբ կա QR կոդ */
+.qr-container.generated{
+    border:2px dashed #6a0dad; 
+}
+
 .qr-container img{ max-width:100%; height:auto; display:block; border-radius:10px; transition: transform 0.3s; }
 .qr-container img:hover{ transform: scale(1.05); }
 
@@ -103,7 +109,7 @@ body.dark{
 body.dark .section{ border-color:#4b0082; color:#fff; }
 body.dark .section h2{ color:#fff; }
 body.dark .section button{ color:#fff; border-color:#fff; }
-body.dark .qr-container{ border-color:#fff; }
+body.dark .qr-container.generated{ border-color:#fff; }
 body.dark .guide{ background:#2f3640; color:#f5f6fa; border-color:#4b0082; }
 body.dark .guide h2{ color:#fff; }
 body.dark .guide a{ color:#af7ac5; }
@@ -150,17 +156,16 @@ QR Կոդ Գեներատոր
 </ol>
 </div>
 
-<!-- qrcode.js գրադարան՝ UTF-8 աջակցությամբ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 function toggleTheme(){ document.body.classList.toggle('dark'); }
 
-// Տեքստի QR (հայերեն ապահով UTF-8)
 function generateTextQRCode(){
     const value = document.getElementById("text").value.trim();
     if(!value){ alert("Խնդրում ենք լրացնել տեքստը։"); return; }
     const container = document.getElementById("qr-text");
     container.innerHTML = "";
+    container.classList.add('generated'); // ցանցապատ եզրագիծը ավելացնել
     new QRCode(container, {
         text: value,
         width: 300,
@@ -169,13 +174,13 @@ function generateTextQRCode(){
     });
 }
 
-// Հղումից QR
 function generateLinkQRCode(){
     let value = document.getElementById("link").value.trim();
     if(!value){ alert("Խնդրում ենք լրացնել դաշտը։"); return; }
     if(!/^https?:\/\//i.test(value)){ value = "https://"+value; }
     const container = document.getElementById("qr-link");
     container.innerHTML = "";
+    container.classList.add('generated');
     new QRCode(container, {
         text: value,
         width: 300,
@@ -184,7 +189,6 @@ function generateLinkQRCode(){
     });
 }
 
-// Նկարից QR
 function generateImageQRCode(){
     const file = document.getElementById("image").files[0];
     if(!file){ alert("Խնդրում ենք ընտրել նկար։"); return; }
@@ -192,6 +196,7 @@ function generateImageQRCode(){
     const container = document.getElementById("qr-image");
     container.innerHTML = "";
     reader.onload = function(e){
+        container.classList.add('generated');
         new QRCode(container, {
             text: e.target.result,
             width: 300,
