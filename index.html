@@ -43,23 +43,29 @@ h1 button:hover{ transform: scale(1.1); }
     text-align:center;
     box-shadow:0 6px 18px rgba(0,0,0,0.2);
     transition:transform 0.3s,background 0.5s,color 0.5s;
-    background:#fff; /* Ներսը սպիտակ */
-    border: 3px solid #6a0dad; /* Մուգ մանուշակագույն եզրագիծ */
+    background:#fff; 
+    border: 3px solid #6a0dad; 
 }
 .section:hover{ transform:translateY(-6px); }
 .section h2{ margin-top:0; font-size:24px; font-weight:bold; color:#4b0082; text-shadow:1px 1px 2px rgba(0,0,0,0.1); }
 .section input, .section textarea{ width:100%; padding:12px; border-radius:12px; border:1px solid #ccc; margin-bottom:12px; box-sizing:border-box; font-size:15px; }
+
 .section button{
     padding:12px 18px;
     border-radius:12px;
-    border:none;
+    border:2px solid #6a0dad; /* եզրագիծ կոճակի համար */
     cursor:pointer;
     font-weight:bold;
     transition: all 0.3s ease;
-    background: rgba(255,255,255,0.3);
+    background: #fff;
     color:#4b0082;
+    box-shadow:0 4px 6px rgba(0,0,0,0.1);
 }
-.section button:hover{ background:rgba(255,255,255,0.6); transform: scale(1.05); }
+.section button:hover{ 
+    background:rgba(106,13,173,0.1); 
+    transform: scale(1.05); 
+    box-shadow:0 6px 10px rgba(0,0,0,0.2);
+}
 
 .qr-container{
     margin-top:15px;
@@ -68,8 +74,11 @@ h1 button:hover{ transform: scale(1.1); }
     align-items:center;
     gap:8px;
     min-height:50px;
+    border:2px dashed #6a0dad; /* եզրագիծ պատրաստի QR-ի համար */
+    border-radius:14px;
+    padding:10px;
 }
-.qr-container img{ max-width:100%; height:auto; display:block; border-radius:14px; transition: transform 0.3s; }
+.qr-container img{ max-width:100%; height:auto; display:block; border-radius:10px; transition: transform 0.3s; }
 .qr-container img:hover{ transform: scale(1.05); }
 
 .guide{
@@ -93,7 +102,8 @@ body.dark{
 }
 body.dark .section{ border-color:#4b0082; color:#fff; }
 body.dark .section h2{ color:#fff; }
-body.dark .section button{ color:#fff; }
+body.dark .section button{ color:#fff; border-color:#fff; }
+body.dark .qr-container{ border-color:#fff; }
 body.dark .guide{ background:#2f3640; color:#f5f6fa; border-color:#4b0082; }
 body.dark .guide h2{ color:#fff; }
 body.dark .guide a{ color:#af7ac5; }
