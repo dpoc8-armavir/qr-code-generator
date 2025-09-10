@@ -5,57 +5,149 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QR Կոդ Գեներատոր</title>
 <style>
-body { font-family: Arial, sans-serif; margin:0; padding:20px; background: linear-gradient(135deg,#f0f4f8,#dfe6e9); color:#2d3436; transition:background 0.5s,color 0.5s;}
-h1{text-align:center; font-size:36px; margin-bottom:20px;}
-.container{display:flex; flex-wrap:wrap; justify-content:center; gap:20px;}
-.section{width:300px; padding:20px; border-radius:15px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.1); transition:transform 0.3s,background 0.5s,color 0.5s;}
-.section:hover{transform:translateY(-5px);}
-.section h2{margin-top:0; font-size:22px;}
-.section input, .section textarea{width:100%; padding:10px; border-radius:10px; border:1px solid #ccc; margin-bottom:10px; box-sizing:border-box; font-size:14px;}
-.section button{padding:10px 16px; border-radius:10px; border:none; cursor:pointer; font-weight:bold; transition:background 0.3s,color 0.3s;}
-.qr-container{margin-top:12px; display:flex; flex-direction:column; align-items:center; gap:6px; min-height:40px;}
-.qr-container img{max-width:100%; height:auto; display:block;}
-.section.text{background:linear-gradient(135deg,#ff6b81,#ff4757); color:#fff;}
-.section.link{background:linear-gradient(135deg,#1dd1a1,#10ac84); color:#fff;}
-.section.image{background:linear-gradient(135deg,#feca57,#ff9f43); color:#2d3436;}
-.guide{background:#fff; border:2px solid #ff6b81; padding:15px 20px; max-width:700px; margin:40px auto 0 auto; border-radius:12px; font-size:14px; color:#2d3436; transition:background 0.5s,color 0.5s,border-color 0.5s;}
-.guide h2{color:#ff6b81; font-size:18px;}
-.guide a{color:#1dd1a1; text-decoration:none;}
-.guide a:hover{text-decoration:underline;}
-.section button:hover{background:rgba(255,255,255,0.3); color:#2d3436;}
-body.dark{background:linear-gradient(135deg,#2f3640,#353b48); color:#f5f6fa;}
-body.dark .section.text{background:linear-gradient(135deg,#c23616,#e84118); color:#fff;}
-body.dark .section.link{background:linear-gradient(135deg,#00a8ff,#0097e6); color:#fff;}
-body.dark .section.image{background:linear-gradient(135deg,#fbc531,#e1b12c); color:#2d3436;}
-body.dark .guide{background:#2f3640; color:#f5f6fa; border-color:#00a8ff;}
-body.dark .guide h2{color:#00a8ff;}
-body.dark .guide a{color:#fbc531;}
+body {
+    font-family: "Segoe UI", sans-serif;
+    margin:0;
+    padding:20px;
+    background: #f5f6fa;
+    color:#2c3e50;
+    transition: background 0.5s, color 0.5s;
+}
+h1{
+    text-align:center;
+    font-size:38px;
+    margin-bottom:30px;
+    padding-bottom:12px;
+    border-bottom: 4px solid #3498db;
+    display:inline-block;
+}
+h1 button{
+    margin-left:12px;
+    font-size:22px;
+    padding:6px 10px;
+    border-radius:50%;
+    border:none;
+    cursor:pointer;
+    background:#3498db;
+    color:#fff;
+    transition: transform 0.3s, background 0.3s;
+}
+h1 button:hover{ transform: scale(1.1); background:#2980b9; }
+
+.container{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+}
+
+.section{
+    width:320px;
+    padding:22px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s, background 0.5s, color 0.5s;
+    background:#ffffff;
+}
+.section:hover{ transform: translateY(-6px); box-shadow: 0 12px 28px rgba(0,0,0,0.15); }
+.section h2{ margin-top:0; font-size:24px; margin-bottom:15px; color:#2c3e50; }
+
+.section input, .section textarea{
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:1px solid #bdc3c7;
+    margin-bottom:12px;
+    font-size:15px;
+    box-sizing:border-box;
+    transition:border 0.3s;
+}
+.section input:focus, .section textarea:focus{ border-color:#3498db; outline:none; }
+
+.section button{
+    padding:12px 18px;
+    border-radius:12px;
+    border:none;
+    cursor:pointer;
+    font-weight:bold;
+    background:#3498db;
+    color:#fff;
+    transition: all 0.3s ease;
+}
+.section button:hover{ background:#2980b9; transform: scale(1.05); }
+
+.qr-container{
+    margin-top:14px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    min-height:50px;
+}
+.qr-container img{
+    max-width:100%;
+    height:auto;
+    display:block;
+    border-radius:12px;
+    transition: transform 0.3s;
+}
+.qr-container img:hover{ transform: scale(1.05); }
+
+.guide{
+    background:#ecf0f1;
+    border-left:6px solid #3498db;
+    padding:20px 25px;
+    max-width:720px;
+    margin:40px auto 0 auto;
+    border-radius:16px;
+    font-size:15px;
+    color:#2c3e50;
+}
+.guide h2{ color:#3498db; font-size:19px; margin-bottom:12px; }
+.guide a{ color:#e67e22; text-decoration:none; }
+.guide a:hover{ text-decoration:underline; }
+
+body.dark{
+    background:#2c3e50;
+    color:#ecf0f1;
+}
+body.dark h1{ border-bottom-color:#e67e22; color:#ecf0f1; }
+body.dark h1 button{ background:#e67e22; }
+body.dark h1 button:hover{ background:#d35400; }
+body.dark .section{ background:#34495e; color:#ecf0f1; }
+body.dark .section input, .dark .section textarea{ background:#2c3e50; color:#ecf0f1; border-color:#95a5a6; }
+body.dark .section button{ background:#e67e22; color:#fff; }
+body.dark .section button:hover{ background:#d35400; }
+body.dark .guide{ background:#34495e; border-left-color:#e67e22; color:#ecf0f1; }
+body.dark .guide h2{ color:#e67e22; }
+body.dark .guide a{ color:#f1c40f; }
 </style>
 </head>
 <body>
 
-<h1 style="text-align:center; font-size:36px; margin-bottom:20px; border-bottom:3px solid #ff6b81; display:inline-block; padding-bottom:10px;">
-  QR Կոդ Գեներատոր
-  <button onclick="toggleTheme()" title="Փոխել թեման" style="margin-left:15px; font-size:22px; padding:4px 8px; border-radius:8px; border:none; cursor:pointer; background:#fff;">🌗</button>
+<h1>
+QR Կոդ Գեներատոր
+<button onclick="toggleTheme()" title="Փոխել թեման">🌗</button>
 </h1>
 
 <div class="container">
   <div class="section text">
     <h2>Տեքստից ստանալ QR կոդ</h2>
-    <textarea id="text" placeholder="Մուտքագրեք տեքստը..." rows="5"></textarea>
+    <textarea id="text" placeholder="Մուտքագրեք ձեր տեքստը..." rows="5"></textarea>
     <button onclick="generateQRCode('text')">Ստեղծել QR</button>
     <div id="qr-text" class="qr-container"></div>
   </div>
 
   <div class="section link">
-    <h2>Հղումից ստանալ QR կոդ</h2>
+    <h2>Հղումից ստանալ  QR կոդ</h2>
     <input type="text" id="link" placeholder="Տեղադրեք հղումը,օր․՝ https://..." />
     <button onclick="generateQRCode('link')">Ստեղծել QR</button>
     <div id="qr-link" class="qr-container"></div>
   </div>
 
   <div class="section image">
-    <h2>Նկարից ստանալ QR կոդ</h2>
+    <h2>Նկարից ստանալ  QR կոդ</h2>
     <input type="file" id="image" accept="image/*" />
     <button onclick="generateQRCode('image')">Ստեղծել QR</button>
     <div id="qr-image" class="qr-container"></div>
@@ -85,8 +177,6 @@ function generateQRCode(type){
         value = document.getElementById("text").value.trim();
         containerId = "qr-text";
         if(!value){ alert("Խնդրում ենք լրացնել տեքստը։"); return; }
-        value = encodeURIComponent(value);
-        value = "data:text/plain;charset=utf-8," + value;
     } else if(type==='link'){
         value = document.getElementById("link").value.trim();
         containerId = "qr-link";
