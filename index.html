@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Կոդ Գեներատոր - Alternate Design</title>
+<title>QR Կոդ Գեներատոր</title>
 <style>
 body { font-family: "Arial", sans-serif; background:#eef2f7; margin:0; padding:20px; }
 h1 { text-align:center; color:#1e272e; margin-bottom:30px; font-size:36px; }
@@ -21,8 +21,8 @@ h1 { text-align:center; color:#1e272e; margin-bottom:30px; font-size:36px; }
 .section.link { background: linear-gradient(135deg, #74b9ff, #a29bfe); color:#fff; }
 .section.image { background: linear-gradient(135deg, #55efc4, #00b894); color:#fff; }
 
-/* Ուղեցույցի ոճ */
-.guide { background:#fff8e1; border-left:6px solid #fd9644; padding:15px 20px; max-width:700px; margin:40px auto 0 auto; border-radius:12px; font-size:14px; color:#6e4a1e; }
+/* Ուղեցույցի ոճ՝ ընդգծված */
+.guide { background:#fff8e1; border:2px solid #fd9644; padding:15px 20px; max-width:700px; margin:40px auto 0 auto; border-radius:12px; font-size:14px; color:#6e4a1e; }
 .guide h2 { color:#fd7e14; font-size:18px; margin-top:0; }
 .guide a { color:#0984e3; text-decoration:none; }
 .guide a:hover { text-decoration:underline; }
@@ -32,14 +32,14 @@ h1 { text-align:center; color:#1e272e; margin-bottom:30px; font-size:36px; }
 </head>
 <body>
 
-<h1>QR Կոդ Գեներատոր - Alternate</h1>
+<h1>QR Կոդ Գեներատոր</h1>
 
 <div class="container">
 
   <!-- Տեքստից QR -->
   <div class="section text">
     <h2>Տեքստից QR</h2>
-    <textarea id="text" placeholder="Գրեք ձեր նյութը..." rows="5"></textarea>
+    <textarea id="text" placeholder="Գրեք տեքստը այստեղ..." rows="5"></textarea>
     <button onclick="generateQRCode('text')">Ստեղծել QR</button>
     <div id="qr-text" class="qr-container"></div>
   </div>
@@ -47,7 +47,7 @@ h1 { text-align:center; color:#1e272e; margin-bottom:30px; font-size:36px; }
   <!-- Հղումից QR -->
   <div class="section link">
     <h2>Հղումից QR</h2>
-    <input type="text" id="link" placeholder="Paste link, π.χ. https://drive.google.com/..." />
+    <input type="text" id="link" placeholder="Տեղադրեք հղումը այստեղ, օր.՝ https://drive.google.com/..." />
     <button onclick="generateQRCode('link')">Ստեղծել QR</button>
     <div id="qr-link" class="qr-container"></div>
   </div>
