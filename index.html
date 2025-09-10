@@ -34,26 +34,28 @@ body.dark .guide a{color:#fbc531;}
 </head>
 <body>
 
-<h1>QR Կոդ Գեներատոր</h1>
-<button onclick="toggleTheme()" style="margin:0 auto; display:block; margin-bottom:20px; padding:8px 16px; border-radius:8px; border:none; cursor:pointer;">Փոխել թեման</button>
+<h1 style="text-align:center; font-size:36px; margin-bottom:20px; border-bottom:3px solid #ff6b81; display:inline-block; padding-bottom:10px;">
+  QR Կոդ Գեներատոր
+  <button onclick="toggleTheme()" title="Փոխել թեման" style="margin-left:15px; font-size:22px; padding:4px 8px; border-radius:8px; border:none; cursor:pointer; background:#fff;">🌗</button>
+</h1>
 
 <div class="container">
   <div class="section text">
-    <h2>Տեքստից QR</h2>
-    <textarea id="text" placeholder="Գրեք ձեր նյութը..." rows="5"></textarea>
+    <h2>Տեքստից ստանալ QR կոդ</h2>
+    <textarea id="text" placeholder="Մուտքագրեք տեքստը..." rows="5"></textarea>
     <button onclick="generateQRCode('text')">Ստեղծել QR</button>
     <div id="qr-text" class="qr-container"></div>
   </div>
 
   <div class="section link">
-    <h2>Հղումից QR</h2>
-    <input type="text" id="link" placeholder="Paste link, π.χ. https://..." />
+    <h2>Հղումից ստանալ QR կոդ</h2>
+    <input type="text" id="link" placeholder="Տեղադրեք հղումը,օր․՝ https://..." />
     <button onclick="generateQRCode('link')">Ստեղծել QR</button>
     <div id="qr-link" class="qr-container"></div>
   </div>
 
   <div class="section image">
-    <h2>Նկարից QR</h2>
+    <h2>Նկարից ստանալ QR կոդ</h2>
     <input type="file" id="image" accept="image/*" />
     <button onclick="generateQRCode('image')">Ստեղծել QR</button>
     <div id="qr-image" class="qr-container"></div>
@@ -65,7 +67,7 @@ body.dark .guide a{color:#fbc531;}
 <ol>
 <li>Բացեք <a href="https://drive.google.com" target="_blank">Google Drive</a>։</li>
 <li>Սեղմեք "New" → "File Upload" և ընտրեք ձեր ֆայլը։</li>
-<li>Սեղմեք աջ կոճակ ֆայլի վրա և ընտրեք <b>"Get link"</b>։</li>
+<li>Բեռնվելուց հետո սեղմեք աջ կոճակը ֆայլի վրա, ընտրեք <b>"Get link"</b> կամ <b>"Share"</b></li>
 <li>Փոխեք "Restricted" → "Anyone with the link"։</li>
 <li>Պատճենեք հղումը և տեղադրեք վերևի դաշտում՝ QR ստանալու համար։</li>
 </ol>
@@ -83,65 +85,13 @@ function generateQRCode(type){
         value = document.getElementById("text").value.trim();
         containerId = "qr-text";
         if(!value){ alert("Խնդրում ենք լրացնել տեքստը։"); return; }
-
-        // Բացել նոր պատուհան տեքստի համար
-        const newWin = window.open("", "_blank");
-        newWin.document.write(`
-            <!DOCTYPE html>
-            <html lang="hy">
-            <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Տեքստի QR արդյունք</title>
-            <style>
-                body{font-family:Arial;padding:20px;background:#f0f4f8;}
-                .text-page{background:#fff; max-width:800px; margin:20px auto; padding:20px; border-radius:12px; white-space:pre-wrap; font-size:16px;}
-                button{background:#00cec9;color:#fff;border:none;padding:10px 18px;border-radius:8px;cursor:pointer;margin:5px;}
-                button:hover{background:#0984e3;}
-            </style>
-            </head>
-            <body>
-                <div class="text-page">${value}</div>
-                <button onclick="downloadPNG()">Ներբեռնել որպես PNG</button>
-                <button onclick="downloadPDF()">Ներբեռնել որպես PDF</button>
-
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-                <script>
-                    function downloadPNG(){
-                        html2canvas(document.querySelector(".text-page")).then(canvas=>{
-                            const link=document.createElement("a");
-                            link.href=canvas.toDataURL("image/png");
-                            link.download="text_as_image.png";
-                            link.click();
-                        });
-                    }
-                    function downloadPDF(){
-                        html2canvas(document.querySelector(".text-page")).then(canvas=>{
-                            const imgData=canvas.toDataURL("image/png");
-                            const { jsPDF } = window.jspdf;
-                            const pdf = new jsPDF("p","pt","a4");
-                            const pageWidth = pdf.internal.pageSize.getWidth();
-                            const pageHeight = pdf.internal.pageSize.getHeight();
-                            const ratio = Math.min(pageWidth/canvas.width,pageHeight/canvas.height);
-                            pdf.addImage(imgData,"PNG",0,0,canvas.width*ratio,canvas.height*ratio);
-                            pdf.save("text_as_pdf.pdf");
-                        });
-                    }
-                </script>
-            </body>
-            </html>
-        `);
-
-        createQR(newWin.location.href, containerId);
-        return;
-
+        value = encodeURIComponent(value);
+        value = "data:text/plain;charset=utf-8," + value;
     } else if(type==='link'){
         value = document.getElementById("link").value.trim();
         containerId = "qr-link";
         if(!value){ alert("Խնդրում ենք լրացնել դաշտը։"); return; }
         if(!/^https?:\/\//i.test(value)){ value = "https://"+value; }
-
     } else if(type==='image'){
         const file = document.getElementById("image").files[0];
         containerId = "qr-image";
