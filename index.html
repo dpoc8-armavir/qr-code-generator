@@ -3,43 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Կոդ Գեներատոր</title>
+<title>QR Կոդ Գեներատոր - Alternate Design</title>
 <style>
-body { font-family: "Segoe UI", sans-serif; background: #f0f4f8; margin:0; padding:20px; }
-h1 { text-align:center; color:#2c3e50; margin-bottom:24px; }
-.container { display:flex; flex-wrap:wrap; justify-content:center; gap:24px; }
-.section { width:320px; padding:18px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.12); text-align:center; }
-.section h2 { margin-top:0; }
-.section input, .section textarea { width:100%; padding:8px; border-radius:8px; border:1px solid #ccc; margin-bottom:8px; box-sizing:border-box; }
-.section button { padding:10px 14px; border-radius:8px; border:none; background:#6c5ce7; color:#fff; cursor:pointer; margin-top:4px; }
-.qr-container { margin-top:10px; display:flex; flex-direction:column; align-items:center; gap:8px; min-height:40px; }
+body { font-family: "Arial", sans-serif; background:#eef2f7; margin:0; padding:20px; }
+h1 { text-align:center; color:#1e272e; margin-bottom:30px; font-size:36px; }
+.container { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
+.section { width:300px; padding:20px; border-radius:15px; text-align:center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s; }
+.section:hover { transform: translateY(-5px); }
+.section h2 { margin-top:0; font-size:22px; }
+.section input, .section textarea { width:100%; padding:10px; border-radius:10px; border:1px solid #ccc; margin-bottom:10px; box-sizing:border-box; font-size:14px; }
+.section button { padding:10px 16px; border-radius:10px; border:none; cursor:pointer; font-weight:bold; }
+.qr-container { margin-top:12px; display:flex; flex-direction:column; align-items:center; gap:6px; min-height:40px; }
 .qr-container img { max-width:100%; height:auto; display:block; }
+
+/* Նոր ոճերը բաժինների համար */
+.section.text { background: linear-gradient(135deg, #ff7979, #ffb8b8); color:#fff; }
+.section.link { background: linear-gradient(135deg, #74b9ff, #a29bfe); color:#fff; }
+.section.image { background: linear-gradient(135deg, #55efc4, #00b894); color:#fff; }
+
+/* Ուղեցույցի ոճ */
+.guide { background:#fff8e1; border-left:6px solid #fd9644; padding:15px 20px; max-width:700px; margin:40px auto 0 auto; border-radius:12px; font-size:14px; color:#6e4a1e; }
+.guide h2 { color:#fd7e14; font-size:18px; margin-top:0; }
+.guide a { color:#0984e3; text-decoration:none; }
+.guide a:hover { text-decoration:underline; }
+
+.section button:hover { background: rgba(0,0,0,0.1); color:#1e272e; }
 </style>
 </head>
 <body>
 
-<h1>QR Կոդ Գեներատոր</h1>
+<h1>QR Կոդ Գեներատոր - Alternate</h1>
 
 <div class="container">
 
   <!-- Տեքստից QR -->
-  <div class="section" style="background:linear-gradient(135deg,#8e44ad,#b795f7); color:white;">
+  <div class="section text">
     <h2>Տեքստից QR</h2>
-    <textarea id="text" placeholder="Գրեք ձեր նյութը..." rows="6"></textarea>
+    <textarea id="text" placeholder="Գրեք ձեր նյութը..." rows="5"></textarea>
     <button onclick="generateQRCode('text')">Ստեղծել QR</button>
     <div id="qr-text" class="qr-container"></div>
   </div>
 
   <!-- Հղումից QR -->
-  <div class="section" style="background:linear-gradient(135deg,#00b894,#55efc4); color:white;">
+  <div class="section link">
     <h2>Հղումից QR</h2>
-    <input type="text" id="link" placeholder="Paste link, π.χ. https://..." />
+    <input type="text" id="link" placeholder="Paste link, π.χ. https://drive.google.com/..." />
     <button onclick="generateQRCode('link')">Ստեղծել QR</button>
     <div id="qr-link" class="qr-container"></div>
   </div>
 
   <!-- Նկարից QR -->
-  <div class="section" style="background:linear-gradient(135deg,#ffeaa7,#ffb347); color:#2c3e50;">
+  <div class="section image">
     <h2>Նկարից QR</h2>
     <input type="file" id="image" accept="image/*" />
     <button onclick="generateQRCode('image')">Ստեղծել QR</button>
@@ -48,28 +62,41 @@ h1 { text-align:center; color:#2c3e50; margin-bottom:24px; }
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<!-- Ուղեցույց -->
+<div class="guide">
+<h2>📌 Ինչպես բեռնել ֆայլը Google Drive-ում և ստանալ հղում</h2>
+<ol>
+  <li>Բացեք <a href="https://drive.google.com" target="_blank">Google Drive</a> կայքը։</li>
+  <li>Սեղմեք "New" → "File Upload" և ընտրեք ձեր ֆայլը։</li>
+  <li>Երբ ֆայլը բեռնվի, սեղմեք աջ կոճակ ֆայլի վրա և ընտրեք <b>"Get link" կամ "share"</b>։</li>
+  <li>Փոխեք "Restricted" → "Anyone with the link"։</li>
+  <li>Պատճենեք հղումը և տեղադրեք վերևի դաշտում՝ QR ստանալու համար։</li>
+</ol>
+</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <script>
-function generateQRCode(type){
-  let value = "", containerId="";
-  if(type==='text'){ 
-    value=document.getElementById("text").value.trim(); 
-    containerId="qr-text"; 
-    if(!value){alert("Խնդրում ենք լրացնել տեքստը։"); return;}
+function generateQRCode(type) {
+  let value = "";
+  let containerId = "";
+
+  if(type==='text'){
+    value=document.getElementById("text").value.trim();
+    containerId="qr-text";
+    if(!value){ alert("Խնդրում ենք լրացնել տեքստը։"); return; }
     const htmlContent = `
       <!DOCTYPE html>
       <html lang="hy">
       <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Տեքստի QR արդյունք</title>
-      <style>
-        body{font-family:"Segoe UI",sans-serif;background:#f0f4f8;padding:20px;}
-        .text-page{background:white; max-width:800px; margin:20px auto; padding:20px; border-radius:10px; white-space:pre-wrap; font-size:16px;}
-        button{background:#6c5ce7;color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;margin:5px;}
-        button:hover{background:#4b36c5;}
-      </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Տեքստի QR արդյունք</title>
+        <style>
+          body{font-family:Arial,sans-serif;background:#eef2f7;padding:20px;}
+          .text-page{background:#fff;max-width:800px;margin:20px auto;padding:20px;border-radius:12px;white-space:pre-wrap;font-size:16px;}
+          button{background:#74b9ff;color:#fff;border:none;padding:10px 18px;border-radius:8px;cursor:pointer;margin:5px;}
+          button:hover{background:#0984e3;}
+        </style>
       </head>
       <body>
         <div class="text-page">${value}</div>
@@ -98,25 +125,23 @@ function generateQRCode(type){
               pdf.save("text_as_pdf.pdf");
             });
           }
-        </script>
+        <\/script>
       </body>
       </html>
     `;
     const dataUrl='data:text/html;base64,'+btoa(unescape(encodeURIComponent(htmlContent)));
-    createQR(dataUrl, containerId);
+    createQR(dataUrl,containerId);
     return;
-  }
-  else if(type==='link'){ 
-    value=document.getElementById("link").value.trim(); 
+  } else if(type==='link'){
+    value=document.getElementById("link").value.trim();
     containerId="qr-link";
     if(!value){alert("Խնդրում ենք լրացնել դաշտը։"); return;}
-  }
-  else if(type==='image'){ 
+  } else if(type==='image'){
     const file=document.getElementById("image").files[0];
     containerId="qr-image";
     if(!file){alert("Խնդրում ենք ընտրել նկար։"); return;}
     const reader=new FileReader();
-    reader.onload=function(e){ createQR(e.target.result,containerId); };
+    reader.onload=function(e){createQR(e.target.result,containerId);};
     reader.readAsDataURL(file);
     return;
   }
@@ -124,7 +149,7 @@ function generateQRCode(type){
 }
 
 function createQR(value,containerId){
-  const qr=new QRious({value:value,size:300});
+  const qr=new QRious({value:size=300,value});
   const container=document.getElementById(containerId);
   container.innerHTML="";
   const img=document.createElement("img");
@@ -132,11 +157,11 @@ function createQR(value,containerId){
   img.alt="QR Code";
   const downloadBtn=document.createElement("button");
   downloadBtn.textContent="Ներբեռնել QR";
-  downloadBtn.onclick=function(){ 
-    const link=document.createElement("a"); 
-    link.href=img.src; 
-    link.download="qr_code.png"; 
-    link.click(); 
+  downloadBtn.onclick=function(){
+    const link=document.createElement("a");
+    link.href=img.src;
+    link.download="qr_code.png";
+    link.click();
   };
   container.appendChild(img);
   container.appendChild(downloadBtn);
