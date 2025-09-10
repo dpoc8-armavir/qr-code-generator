@@ -17,7 +17,7 @@ h1{
     text-align:center;
     font-size:38px;
     margin-bottom:20px;
-    border-bottom:4px solid #6a0dad;
+    border-bottom:4px solid #4b0082;
     display:inline-block;
     padding-bottom:12px;
     font-weight:bold;
@@ -43,9 +43,11 @@ h1 button:hover{ transform: scale(1.1); }
     text-align:center;
     box-shadow:0 6px 18px rgba(0,0,0,0.2);
     transition:transform 0.3s,background 0.5s,color 0.5s;
+    background:#fff; /* Ներսը սպիտակ */
+    border: 3px solid #6a0dad; /* Մուգ մանուշակագույն եզրագիծ */
 }
 .section:hover{ transform:translateY(-6px); }
-.section h2{ margin-top:0; font-size:24px; font-weight:bold; text-shadow:1px 1px 2px rgba(0,0,0,0.2); }
+.section h2{ margin-top:0; font-size:24px; font-weight:bold; color:#4b0082; text-shadow:1px 1px 2px rgba(0,0,0,0.1); }
 .section input, .section textarea{ width:100%; padding:12px; border-radius:12px; border:1px solid #ccc; margin-bottom:12px; box-sizing:border-box; font-size:15px; }
 .section button{
     padding:12px 18px;
@@ -55,6 +57,7 @@ h1 button:hover{ transform: scale(1.1); }
     font-weight:bold;
     transition: all 0.3s ease;
     background: rgba(255,255,255,0.3);
+    color:#4b0082;
 }
 .section button:hover{ background:rgba(255,255,255,0.6); transform: scale(1.05); }
 
@@ -69,11 +72,6 @@ h1 button:hover{ transform: scale(1.1); }
 .qr-container img{ max-width:100%; height:auto; display:block; border-radius:14px; transition: transform 0.3s; }
 .qr-container img:hover{ transform: scale(1.05); }
 
-/* Մանուշակագույնի գրադիենտներ բաժինների համար */
-.section.text{ background:linear-gradient(135deg,#9b59b6,#8e44ad); color:#fff; }
-.section.link{ background:linear-gradient(135deg,#af7ac5,#9b59b6); color:#fff; }
-.section.image{ background:linear-gradient(135deg,#d2b4de,#af7ac5); color:#fff; }
-
 .guide{
     background:#fff;
     border:3px solid #6a0dad;
@@ -85,19 +83,19 @@ h1 button:hover{ transform: scale(1.1); }
     color:#2d3436;
     transition:background 0.5s,color 0.5s,border-color 0.5s;
 }
-.guide h2{ color:#6a0dad; font-size:20px; font-weight:bold; }
-.guide a{ color:#8e44ad; text-decoration:none; font-weight:bold; }
+.guide h2{ color:#4b0082; font-size:20px; font-weight:bold; }
+.guide a{ color:#6a0dad; text-decoration:none; font-weight:bold; }
 .guide a:hover{ text-decoration:underline; }
 
 body.dark{
     background:linear-gradient(135deg,#2f3640,#353b48);
     color:#f5f6fa;
 }
-body.dark .section.text{ background:linear-gradient(135deg,#9b59b6,#8e44ad); color:#fff; }
-body.dark .section.link{ background:linear-gradient(135deg,#af7ac5,#9b59b6); color:#fff; }
-body.dark .section.image{ background:linear-gradient(135deg,#d2b4de,#af7ac5); color:#fff; }
-body.dark .guide{ background:#2f3640; color:#f5f6fa; border-color:#8e44ad; }
-body.dark .guide h2{ color:#8e44ad; }
+body.dark .section{ border-color:#4b0082; color:#fff; }
+body.dark .section h2{ color:#fff; }
+body.dark .section button{ color:#fff; }
+body.dark .guide{ background:#2f3640; color:#f5f6fa; border-color:#4b0082; }
+body.dark .guide h2{ color:#fff; }
 body.dark .guide a{ color:#af7ac5; }
 </style>
 </head>
