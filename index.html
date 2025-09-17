@@ -53,7 +53,7 @@ h1 button:hover{ transform: scale(1.1); }
 .section button{
     padding:12px 18px;
     border-radius:12px;
-    border:2px solid #6a0dad; /* եզրագիծ կոճակի համար */
+    border:2px solid #6a0dad;
     cursor:pointer;
     font-weight:bold;
     transition: all 0.3s ease;
@@ -67,7 +67,6 @@ h1 button:hover{ transform: scale(1.1); }
     box-shadow:0 6px 10px rgba(0,0,0,0.2);
 }
 
-/* QR կոնտեյներ սկզբում առանց ցանցապատ եզրագծի */
 .qr-container{
     margin-top:15px;
     display:flex;
@@ -78,14 +77,27 @@ h1 button:hover{ transform: scale(1.1); }
     border-radius:14px;
     padding:10px;
 }
-
-/* Ցանցապատ եզրագիծը ավելանում է միայն երբ կա QR կոդ */
 .qr-container.generated{
     border:2px dashed #6a0dad; 
 }
-
 .qr-container img{ max-width:100%; height:auto; display:block; border-radius:10px; transition: transform 0.3s; }
 .qr-container img:hover{ transform: scale(1.05); }
+
+.download-btn{
+    padding:8px 16px;
+    border-radius:10px;
+    border:2px solid #6a0dad;
+    background:#fff;
+    color:#4b0082;
+    cursor:pointer;
+    font-weight:bold;
+    margin-top:8px;
+    transition: all 0.3s ease;
+}
+.download-btn:hover{
+    background:rgba(106,13,173,0.1);
+    transform: scale(1.05);
+}
 
 .guide{
     background:#fff;
@@ -160,25 +172,24 @@ QR Կոդ Գեներատոր
 <script>
 function toggleTheme(){ document.body.classList.toggle('dark'); }
 
-function generateTextQRCode(){
-    const value = document.getElementById("text").value.trim();
-    if(!value){ alert("Խնդրում ենք լրացնել տեքստը։"); return; }
-    const container = document.getElementById("qr-text");
-    container.innerHTML = "";
-    container.classList.add('generated'); // ցանցապատ եզրագիծը ավելացնել
-    new QRCode(container, {
-        text: value,
-        width: 300,
-        height: 300,
-        correctLevel: QRCode.CorrectLevel.H
-    });
+// Նոր ֆունկցիա՝ QR կոդ ստեղծելու և ներբեռնումը ավելացնելու համար
+function addDownloadButton(container, img){
+    const existing = container.querySelector(".download-btn");
+    if(existing) existing.remove();
+    const btn = document.createElement("button");
+    btn.textContent = "Ներբեռնել QR";
+    btn.className = "download-btn";
+    btn.onclick = ()=> {
+        const a = document.createElement("a");
+        a.href = img.src;
+        a.download = "qr-code.png";
+        a.click();
+    };
+    container.appendChild(btn);
 }
 
-function generateLinkQRCode(){
-    let value = document.getElementById("link").value.trim();
-    if(!value){ alert("Խնդրում ենք լրացնել դաշտը։"); return; }
-    if(!/^https?:\/\//i.test(value)){ value = "https://"+value; }
-    const container = document.getElementById("qr-link");
+// Հիմնական QR կոդ ստեղծող ֆունկցիա
+function generateQRCode(container, value){
     container.innerHTML = "";
     container.classList.add('generated');
     new QRCode(container, {
@@ -187,6 +198,25 @@ function generateLinkQRCode(){
         height: 300,
         correctLevel: QRCode.CorrectLevel.H
     });
+    setTimeout(()=> {
+        const img = container.querySelector("img");
+        if(img) addDownloadButton(container, img);
+    }, 300);
+}
+
+function generateTextQRCode(){
+    const value = document.getElementById("text").value.trim();
+    if(!value){ alert("Խնդրում ենք լրացնել տեքստը։"); return; }
+    const container = document.getElementById("qr-text");
+    generateQRCode(container, value);
+}
+
+function generateLinkQRCode(){
+    let value = document.getElementById("link").value.trim();
+    if(!value){ alert("Խնդրում ենք լրացնել դաշտը։"); return; }
+    if(!/^https?:\/\//i.test(value)){ value = "https://"+value; }
+    const container = document.getElementById("qr-link");
+    generateQRCode(container, value);
 }
 
 function generateImageQRCode(){
@@ -194,15 +224,8 @@ function generateImageQRCode(){
     if(!file){ alert("Խնդրում ենք ընտրել նկար։"); return; }
     const reader = new FileReader();
     const container = document.getElementById("qr-image");
-    container.innerHTML = "";
     reader.onload = function(e){
-        container.classList.add('generated');
-        new QRCode(container, {
-            text: e.target.result,
-            width: 300,
-            height: 300,
-            correctLevel: QRCode.CorrectLevel.H
-        });
+        generateQRCode(container, e.target.result);
     };
     reader.readAsDataURL(file);
 }
