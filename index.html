@@ -5,37 +5,67 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QR Կոդ Գեներատոր</title>
 <style>
+:root {
+  --bg-color: #e0f7ff;
+  --text-color: #2d3436;
+  --accent-color: #6a0dad;
+  --card-bg: #fff;
+  --card-border: #6a0dad;
+}
 body {
-    font-family: Arial, sans-serif;
-    margin:0;
-    padding:20px;
-    background: linear-gradient(135deg,#e0f7ff,#cceeff);
-    color:#2d3436;
-    transition:background 0.5s,color 0.5s;
+  font-family: Arial, sans-serif;
+  margin:0;
+  padding:20px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.5s ease;
 }
-h1{
-    text-align:center;
-    font-size:38px;
-    margin-bottom:20px;
-    display:inline-block;
-    padding-bottom:12px;
-    font-weight:bold;
-    color:#4b0082;
-    border-bottom:4px solid #4b0082;
-}
-h1 button{
-    margin-left:15px;
-    font-size:24px;
-    padding:4px 8px;
-    border-radius:8px;
-    border:none;
-    cursor:pointer;
-    background:#fff;
-    transition: transform 0.3s;
-}
-h1 button:hover{ transform: scale(1.1); }
 
-.container{ display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:20px; }
+/* Dark mode variables */
+body.dark {
+  --bg-color: #2f3640;
+  --text-color: #f5f6fa;
+  --accent-color: #af7ac5;
+  --card-bg: #353b48;
+  --card-border: #4b0082;
+}
+
+/* Toggle Button Container */
+.toggle-container {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.toggle-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent-color);
+  color: #fff;
+  transition: all 0.3s ease;
+}
+.toggle-btn:hover { transform: scale(1.05); }
+
+/* Header */
+h1 {
+  text-align: center;
+  font-size:38px;
+  margin:0 0 10px 0;
+  font-weight:bold;
+  color: var(--accent-color);
+}
+.subtitle {
+  text-align: center;
+  font-size:16px;
+  margin-bottom:30px;
+  color:#555;
+}
+
+/* Sections */
+.container{ display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:0; }
 .section{
     width:320px;
     padding:20px;
@@ -43,11 +73,11 @@ h1 button:hover{ transform: scale(1.1); }
     text-align:center;
     box-shadow:0 6px 18px rgba(0,0,0,0.2);
     transition:transform 0.3s,background 0.5s,color 0.5s;
-    background:#fff; 
-    border: 3px solid #6a0dad; 
+    background: var(--card-bg);
+    border: 3px solid var(--card-border); 
 }
 .section:hover{ transform:translateY(-6px); }
-.section h2{ margin-top:0; font-size:24px; font-weight:bold; color:#4b0082; text-shadow:1px 1px 2px rgba(0,0,0,0.1); }
+.section h2{ margin-top:0; font-size:24px; font-weight:bold; color: var(--accent-color); text-shadow:1px 1px 2px rgba(0,0,0,0.1); }
 .section input, .section textarea{
     width:100%; 
     padding:12px; 
@@ -57,24 +87,24 @@ h1 button:hover{ transform: scale(1.1); }
     box-sizing:border-box; 
     font-size:15px;
 }
-
 .section button{
     padding:12px 18px;
     border-radius:12px;
-    border:2px solid #6a0dad;
+    border:2px solid var(--accent-color);
     cursor:pointer;
     font-weight:bold;
     transition: all 0.3s ease;
-    background: #fff;
-    color:#4b0082;
+    background: var(--card-bg);
+    color: var(--accent-color);
     box-shadow:0 4px 6px rgba(0,0,0,0.1);
 }
 .section button:hover{ 
-    background:rgba(106,13,173,0.1); 
+    background: rgba(106,13,173,0.1); 
     transform: scale(1.05); 
     box-shadow:0 6px 10px rgba(0,0,0,0.2);
 }
 
+/* QR container */
 .qr-container{
     margin-top:15px;
     display:flex;
@@ -87,7 +117,7 @@ h1 button:hover{ transform: scale(1.1); }
     transition: all 0.3s ease;
 }
 .qr-container.generated{
-    border:2px dashed #6a0dad; 
+    border:2px dashed var(--accent-color); 
 }
 .qr-container img{ max-width:100%; height:auto; display:block; border-radius:10px; transition: transform 0.3s; }
 .qr-container img:hover{ transform: scale(1.05); }
@@ -95,63 +125,56 @@ h1 button:hover{ transform: scale(1.1); }
 .download-btn{
     padding:8px 16px;
     border-radius:10px;
-    border:2px solid #6a0dad;
-    background:#fff;
-    color:#4b0082;
+    border:2px solid var(--accent-color);
+    background: var(--card-bg);
+    color: var(--accent-color);
     cursor:pointer;
     font-weight:bold;
     margin-top:8px;
     transition: all 0.3s ease;
 }
 .download-btn:hover{
-    background:rgba(106,13,173,0.1);
+    background: rgba(106,13,173,0.1);
     transform: scale(1.05);
 }
 
+/* Guide */
 .guide{
-    background:#fff;
-    border:3px solid #6a0dad;
+    background: var(--card-bg);
+    border:3px solid var(--card-border);
     padding:18px 22px;
     max-width:750px;
     margin:40px auto 0 auto;
     border-radius:14px;
     font-size:15px;
-    color:#2d3436;
-    transition:background 0.5s,color 0.5s,border-color 0.5s;
+    color: var(--text-color);
 }
-.guide h2{ color:#4b0082; font-size:20px; font-weight:bold; margin-bottom:8px; }
-.guide a{ color:#6a0dad; text-decoration:none; font-weight:bold; }
+.guide h2{ color: var(--accent-color); font-size:20px; font-weight:bold; margin-bottom:8px; }
+.guide a{ color: var(--accent-color); text-decoration:none; font-weight:bold; }
 .guide a:hover{ text-decoration:underline; }
 
+/* Footer */
 footer{
     text-align:center;
     margin-top:40px;
     font-size:14px;
     font-weight:bold;
-    color:#4b0082;
+    color: var(--accent-color);
 }
-
-body.dark{
-    background:linear-gradient(135deg,#2f3640,#353b48);
-    color:#f5f6fa;
-}
-body.dark .section{ border-color:#4b0082; color:#fff; }
-body.dark .section h2{ color:#fff; }
-body.dark .section button{ color:#fff; border-color:#fff; }
-body.dark .qr-container.generated{ border-color:#fff; }
-body.dark .guide{ background:#2f3640; color:#f5f6fa; border-color:#4b0082; }
-body.dark .guide h2{ color:#fff; }
-body.dark .guide a{ color:#af7ac5; }
-body.dark footer{ color:#fff; }
 </style>
 </head>
 <body>
 
-<h1>
-QR Կոդ Գեներատոր
-<button onclick="toggleTheme()" title="Փոխել թեման">🎨</button>
-</h1>
+<!-- Toggle Button -->
+<div class="toggle-container">
+  <button class="toggle-btn" onclick="toggleTheme()">🌙 Փոխել թեման</button>
+</div>
 
+<!-- Header -->
+<h1>QR Կոդ Գեներատոր</h1>
+<p class="subtitle">Պարզ և արագ 🚀 Ստեղծիր քո QR կոդը՝ ցանկացած հղման կամ տեքստի համար😍</p>
+
+<!-- Sections -->
 <div class="container">
   <div class="section text">
     <h2>Տեքստից ստանալ QR կոդ</h2>
@@ -175,6 +198,7 @@ QR Կոդ Գեներատոր
   </div>
 </div>
 
+<!-- Guide -->
 <div class="guide">
 <h2>📌 Ինչպես բեռնել ֆայլը Google Drive-ում և ստանալ հղում</h2>
 <ol>
@@ -186,8 +210,10 @@ QR Կոդ Գեներատոր
 </ol>
 </div>
 
+<!-- Footer -->
 <footer>© Նախագծային աշխատանք</footer>
 
+<!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 function toggleTheme(){ document.body.classList.toggle('dark'); }
