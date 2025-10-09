@@ -17,11 +17,11 @@ h1{
     text-align:center;
     font-size:38px;
     margin-bottom:20px;
-    border-bottom:4px solid #4b0082;
     display:inline-block;
     padding-bottom:12px;
     font-weight:bold;
     color:#4b0082;
+    border-bottom:4px solid #4b0082;
 }
 h1 button{
     margin-left:15px;
@@ -48,7 +48,15 @@ h1 button:hover{ transform: scale(1.1); }
 }
 .section:hover{ transform:translateY(-6px); }
 .section h2{ margin-top:0; font-size:24px; font-weight:bold; color:#4b0082; text-shadow:1px 1px 2px rgba(0,0,0,0.1); }
-.section input, .section textarea{ width:100%; padding:12px; border-radius:12px; border:1px solid #ccc; margin-bottom:12px; box-sizing:border-box; font-size:15px; }
+.section input, .section textarea{
+    width:100%; 
+    padding:12px; 
+    border-radius:12px; 
+    border:1px solid #ccc; 
+    margin-bottom:12px; 
+    box-sizing:border-box; 
+    font-size:15px;
+}
 
 .section button{
     padding:12px 18px;
@@ -76,6 +84,7 @@ h1 button:hover{ transform: scale(1.1); }
     min-height:50px;
     border-radius:14px;
     padding:10px;
+    transition: all 0.3s ease;
 }
 .qr-container.generated{
     border:2px dashed #6a0dad; 
@@ -110,9 +119,17 @@ h1 button:hover{ transform: scale(1.1); }
     color:#2d3436;
     transition:background 0.5s,color 0.5s,border-color 0.5s;
 }
-.guide h2{ color:#4b0082; font-size:20px; font-weight:bold; }
+.guide h2{ color:#4b0082; font-size:20px; font-weight:bold; margin-bottom:8px; }
 .guide a{ color:#6a0dad; text-decoration:none; font-weight:bold; }
 .guide a:hover{ text-decoration:underline; }
+
+footer{
+    text-align:center;
+    margin-top:40px;
+    font-size:14px;
+    font-weight:bold;
+    color:#4b0082;
+}
 
 body.dark{
     background:linear-gradient(135deg,#2f3640,#353b48);
@@ -125,13 +142,14 @@ body.dark .qr-container.generated{ border-color:#fff; }
 body.dark .guide{ background:#2f3640; color:#f5f6fa; border-color:#4b0082; }
 body.dark .guide h2{ color:#fff; }
 body.dark .guide a{ color:#af7ac5; }
+body.dark footer{ color:#fff; }
 </style>
 </head>
 <body>
 
 <h1>
 QR Կոդ Գեներատոր
-<button onclick="toggleTheme()" title="Փոխել թեման">©</button>
+<button onclick="toggleTheme()" title="Փոխել թեման">🎨</button>
 </h1>
 
 <div class="container">
@@ -168,11 +186,12 @@ QR Կոդ Գեներատոր
 </ol>
 </div>
 
+<footer>© Նախագծային աշխատանք</footer>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 function toggleTheme(){ document.body.classList.toggle('dark'); }
 
-// Նոր ֆունկցիա՝ QR կոդ ստեղծելու և ներբեռնումը ավելացնելու համար
 function addDownloadButton(container, img){
     const existing = container.querySelector(".download-btn");
     if(existing) existing.remove();
@@ -188,7 +207,6 @@ function addDownloadButton(container, img){
     container.appendChild(btn);
 }
 
-// Հիմնական QR կոդ ստեղծող ֆունկցիա
 function generateQRCode(container, value){
     container.innerHTML = "";
     container.classList.add('generated');
@@ -230,6 +248,5 @@ function generateImageQRCode(){
     reader.readAsDataURL(file);
 }
 </script>
-
 </body>
 </html>
