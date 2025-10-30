@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="hy">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>QR Կոդ Գեներատոր</title>
 
 <!-- Favicon (browser tab icon) -->
-<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" type="image/png">
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" type="image/png"/>
 
 <style>
 :root {
@@ -19,7 +19,6 @@ body {
   font-family: Arial, sans-serif;
   margin:0;
   padding:20px;
-  /* Պրոֆեսիոնալ թափանցիկ ֆոն */
   background: linear-gradient(135deg, rgba(224,247,255,0.7), rgba(204,238,255,0.7)), url('https://images.unsplash.com/photo-1593642532973-d31b6557fa68?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
   background-size: cover;
   color: var(--text-color);
@@ -62,6 +61,7 @@ h1 {
   margin:0 0 10px 0;
   font-weight:bold;
   color: var(--accent-color);
+  cursor: pointer; /* clickable to reset/reload */
 }
 .subtitle {
   text-align: center;
@@ -80,17 +80,17 @@ h1 {
     box-shadow:0 6px 18px rgba(0,0,0,0.2);
     transition:transform 0.3s,background 0.5s,color 0.5s;
     background: var(--card-bg);
-    border: 3px solid var(--card-border); 
+    border: 3px solid var(--card-border);
 }
 .section:hover{ transform:translateY(-6px); }
 .section h2{ margin-top:0; font-size:24px; font-weight:bold; color: var(--accent-color); text-shadow:1px 1px 2px rgba(0,0,0,0.1); }
 .section input, .section textarea{
-    width:100%; 
-    padding:12px; 
-    border-radius:12px; 
-    border:1px solid #ccc; 
-    margin-bottom:12px; 
-    box-sizing:border-box; 
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:1px solid #ccc;
+    margin-bottom:12px;
+    box-sizing:border-box;
     font-size:15px;
 }
 .section button{
@@ -104,9 +104,9 @@ h1 {
     color: var(--accent-color);
     box-shadow:0 4px 6px rgba(0,0,0,0.1);
 }
-.section button:hover{ 
-    background: rgba(106,13,173,0.1); 
-    transform: scale(1.05); 
+.section button:hover{
+    background: rgba(106,13,173,0.1);
+    transform: scale(1.05);
     box-shadow:0 6px 10px rgba(0,0,0,0.2);
 }
 
@@ -123,7 +123,7 @@ h1 {
     transition: all 0.3s ease;
 }
 .qr-container.generated{
-    border:2px dashed var(--accent-color); 
+    border:2px dashed var(--accent-color);
 }
 .qr-container img{ max-width:100%; height:auto; display:block; border-radius:10px; transition: transform 0.3s; }
 .qr-container img:hover{ transform: scale(1.05); }
@@ -176,8 +176,8 @@ footer{
   <button class="toggle-btn" onclick="toggleTheme()">🌙 Փոխել թեման</button>
 </div>
 
-<!-- Header -->
-<h1>QR Կոդ Գեներատոր</h1>
+<!-- Header (clickable to reset/reload page) -->
+<h1 onclick="resetPage()">QR Կոդ Գեներատոր</h1>
 <p class="subtitle">Պարզ և արագ 🚀 Ստեղծիր քո QR կոդը՝ ցանկացած հղման կամ տեքստի համար✅</p>
 
 <!-- Sections -->
@@ -185,22 +185,25 @@ footer{
   <div class="section text">
     <h2>Տեքստից ստանալ QR կոդ</h2>
     <textarea id="text" placeholder="Մուտքագրեք ձեր տեքստը..." rows="5"></textarea>
-    <button onclick="generateTextQRCode()">Ստեղծել QR</button>
-    <div id="qr-text" class="qr-container"></div>
+    <button id="textBtn">Ստեղծել QR</button>
+    <div id="qr-text" class="qr-container" aria-live="polite"></div>
   </div>
 
   <div class="section link">
     <h2>Հղումից ստանալ QR կոդ</h2>
     <input type="text" id="link" placeholder="Տեղադրեք հղումը,օր․՝ https://..." />
-    <button onclick="generateLinkQRCode()">Ստեղծել QR</button>
-    <div id="qr-link" class="qr-container"></div>
+    <button id="linkBtn">Ստեղծել QR</button>
+    <div id="qr-link" class="qr-container" aria-live="polite"></div>
   </div>
 
   <div class="section image">
     <h2>Նկարից ստանալ QR կոդ</h2>
     <input type="file" id="image" accept="image/*" />
-    <button onclick="generateImageQRCode()">Ստեղծել QR</button>
-    <div id="qr-image" class="qr-container"></div>
+    <button id="imageBtn">Ստեղծել QR</button>
+    <div id="qr-image" class="qr-container" aria-live="polite"></div>
+    <small style="display:block; margin-top:6px; color:#666;">
+      Եթե պատկերները մեծ են՝ խորհուրդ ենք տալիս առաջինը բեռնել Google Drive և հղում տեղադրել «Հղում» դաշտում։
+    </small>
   </div>
 </div>
 
@@ -222,8 +225,16 @@ footer{
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
+/* Theme toggle */
 function toggleTheme(){ document.body.classList.toggle('dark'); }
 
+/* Reset / reload page: clears inputs and generated QR */
+function resetPage(){
+  // Reload page to guarantee full reset (clears generated QR and any state)
+  window.location.reload();
+}
+
+/* Utility: add download button under generated QR image */
 function addDownloadButton(container, img){
     const existing = container.querySelector(".download-btn");
     if(existing) existing.remove();
@@ -239,21 +250,133 @@ function addDownloadButton(container, img){
     container.appendChild(btn);
 }
 
+/* Core: create QR inside a container from a string value */
 function generateQRCode(container, value){
     container.innerHTML = "";
     container.classList.add('generated');
+    // create QR
     new QRCode(container, {
         text: value,
         width: 300,
         height: 300,
         correctLevel: QRCode.CorrectLevel.H
     });
+    // after QR lib renders an <img>, add download button
     setTimeout(()=> {
         const img = container.querySelector("img");
         if(img) addDownloadButton(container, img);
-    }, 300);
+    }, 250);
 }
 
+/* --- Handlers for each section --- */
+
+/* 1) Text -> QR */
 function generateTextQRCode(){
-    const value = document.getElementById("text").value.trim();
-    if(!value){ alert
+    const textarea = document.getElementById("text");
+    const value = textarea.value.trim();
+    const container = document.getElementById("qr-text");
+    if(!value){
+      alert("Խնդրում ենք մուտքագրել տեքստը՝ QR ստանալու համար։");
+      textarea.focus();
+      return;
+    }
+    generateQRCode(container, value);
+}
+
+/* 2) Link -> QR (adds https if missing) */
+function generateLinkQRCode(){
+    const input = document.getElementById("link");
+    let value = input.value.trim();
+    const container = document.getElementById("qr-link");
+    if(!value){
+      alert("Խնդրում ենք մուտքագրել հղումը։");
+      input.focus();
+      return;
+    }
+    // simple url normalization: prepend https:// if scheme missing
+    try {
+      if(!/^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(value)){
+        value = 'https://' + value;
+      }
+      // Validate with URL constructor
+      new URL(value);
+    } catch(e){
+      alert("Տրված հղումը անվավեր է։ Վերլուծեք այն և փորձեք կրկին։");
+      input.focus();
+      return;
+    }
+    generateQRCode(container, value);
+}
+
+/* 3) Image -> QR
+   NOTE: embedding full image data as a QR is often too large.
+   Here we attempt to read the image as a small data URL and only generate QR if dataURL length is reasonably small.
+   Otherwise we show a preview and advise user to upload the image to Drive and use the link.
+*/
+function generateImageQRCode(){
+    const fileInput = document.getElementById("image");
+    const container = document.getElementById("qr-image");
+    container.innerHTML = "";
+    const file = fileInput.files && fileInput.files[0];
+    if(!file){
+      alert("Խնդրում ենք ընտրել պատկեր՝ QR ստանալու համար կամ տեղադրել հղումը «Հղում» դաշտում։");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e){
+      const dataURL = e.target.result;
+      // conservative size check: if base64 string length is small enough, create QR (works only for very small images)
+      const len = dataURL.length;
+      if(len < 1500){
+        // generate QR containing the data URL
+        generateQRCode(container, dataURL);
+      } else {
+        // too large to encode reliably in QR: show preview and advice
+        const preview = document.createElement("img");
+        preview.src = dataURL;
+        preview.alt = file.name;
+        preview.style.maxWidth = "220px";
+        preview.style.borderRadius = "8px";
+        container.appendChild(preview);
+
+        const note = document.createElement("div");
+        note.style.color = "#666";
+        note.style.fontSize = "13px";
+        note.style.textAlign = "center";
+        note.style.marginTop = "6px";
+        note.textContent = "Պատկերը մեծ է; բեռնելու համար խորհուրդ ենք տալիս առաջինը գցել Google Drive և տեղադրել հղումը «Հղում» դաշտում։";
+        container.appendChild(note);
+      }
+    };
+    reader.onerror = function(){
+      alert("Պատկերի կարդալիս սխալ տեղի ունեցավ։ Լրացուցիչ փորձեք կամ օգտագործեք Google Drive հղումը։");
+    };
+    // start read as data URL
+    reader.readAsDataURL(file);
+}
+
+/* Attach click listeners to buttons (to avoid inline onclick problems) */
+document.addEventListener('DOMContentLoaded', function(){
+    const textBtn = document.getElementById('textBtn');
+    const linkBtn = document.getElementById('linkBtn');
+    const imageBtn = document.getElementById('imageBtn');
+
+    textBtn && textBtn.addEventListener('click', generateTextQRCode);
+    linkBtn && linkBtn.addEventListener('click', generateLinkQRCode);
+    imageBtn && imageBtn.addEventListener('click', generateImageQRCode);
+
+    // Allow pressing Ctrl+Enter inside textarea to generate QR quickly
+    const textarea = document.getElementById('text');
+    if(textarea){
+      textarea.addEventListener('keydown', function(e){
+        if(e.ctrlKey && e.key === 'Enter'){
+          e.preventDefault();
+          generateTextQRCode();
+        }
+      });
+    }
+});
+</script>
+</body>
+</html>
