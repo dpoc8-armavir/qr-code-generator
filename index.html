@@ -9,32 +9,72 @@
 
 <style>
 :root {
-  --bg-color: #e1e6f0;
-  --text-color: #1a1a1a;
-  --accent-color: #3366ff;
+  --bg-color: #e4e8f0;
+  --text-color: #1a2030;
+  --accent-color: #25408f;
   --card-bg: #ffffff;
-  --card-border: #4d80ff;
+  --card-border: #3a5cbf;
 }
 
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(145deg, #e1e6f0 0%, #f5f7fc 50%, #dce4f7 100%);
+  background: linear-gradient(145deg, #e4e8f0 0%, #f5f7fc 50%, #d9e2f7 100%);
   color: var(--text-color);
   transition: all 0.3s ease;
 }
 
 body.dark {
-  --bg-color: #10121e;
-  --text-color: #e0e8ff;
-  --accent-color: #3399ff;
+  --bg-color: #0f1323;
+  --text-color: #dfe6ff;
+  --accent-color: #4d90ff;
   --card-bg: #1b1f33;
-  --card-border: #3399ff;
-  background: linear-gradient(145deg, #0d0f1b 0%, #101227 50%, #0a0c17 100%);
+  --card-border: #4d90ff;
+  background: linear-gradient(145deg, #0b0e1d 0%, #101228 50%, #0a0c17 100%);
 }
 
-.container { display: flex; justify-content: center; padding: 20px; }
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+.toggle-container { text-align: center; margin: 15px 0; }
+.toggle-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent-color);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.toggle-btn:hover { transform: scale(1.05); }
+
+/* Վերնագիր */
+h1 {
+  text-align: center;
+  font-size: 50px;
+  margin: 20px 0 10px 0;
+  font-weight: 800;
+  color: var(--accent-color);
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: 0.3s;
+}
+h1:hover { transform: scale(1.05); text-shadow: 2px 2px 8px rgba(0,0,0,0.25); }
+
+.subtitle {
+  text-align: center;
+  color: #3b4b6b;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.container { display: flex; justify-content: center; align-items: flex-start; padding: 0 20px; }
 
 .section {
   background: var(--card-bg);
@@ -43,28 +83,13 @@ body.dark {
   max-width: 460px;
   width: 100%;
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
   border: 1.5px solid var(--card-border);
-  text-align: center;
 }
+.section:hover { transform: translateY(-4px); box-shadow: 0 14px 35px rgba(0,0,0,0.2); }
+.section h2 { font-size: 24px; font-weight: 600; color: var(--accent-color); margin-bottom: 20px; }
 
-h1 {
-  text-align: center;
-  font-size: 44px;
-  margin: 20px 0 10px 0;
-  font-weight: 800;
-  color: var(--accent-color);
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-  cursor: pointer;
-}
-
-.subtitle {
-  text-align: center;
-  color: #445b82;
-  font-size: 16px;
-  margin-bottom: 30px;
-}
-
-textarea {
+.section textarea {
   width: 100%;
   padding: 14px;
   font-size: 16px;
@@ -73,14 +98,13 @@ textarea {
   box-sizing: border-box;
   resize: none;
   transition: all 0.3s ease;
-  background: #f9fbff;
+  background: #f0f3f9;
 }
-
-body.dark .section textarea { background: #2c3552; color: #fff; }
-textarea:focus { border-color: var(--accent-color); outline: none; }
+body.dark .section textarea { background: #2b3552; color: #fff; }
+.section textarea:focus { border-color: var(--accent-color); box-shadow: 0 0 6px rgba(0,80,180,0.35); outline: none; }
 
 button {
-  background: linear-gradient(90deg, #3366ff, #4d80ff);
+  background: linear-gradient(90deg, #25408f, #3a5cbf);
   color: #fff;
   font-size: 17px;
   font-weight: 600;
@@ -92,8 +116,7 @@ button {
   width: 100%;
   margin-top: 10px;
 }
-
-button:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.15); }
+button:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.2); }
 
 .qr-container {
   margin-top: 25px;
@@ -102,27 +125,39 @@ button:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.
   align-items: center;
   padding: 20px;
   border-radius: 16px;
-  background: linear-gradient(145deg, #ffffff, #dce4f7);
+  background: #eaf0fc;
   border: 1.5px dashed var(--card-border);
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  animation: fadeInQR 0.6s ease-in-out;
 }
-
 body.dark .qr-container { background: #1b243b; }
 
-.download-btn {
-  margin-top: 15px;
-  background: var(--accent-color);
-  color: #fff;
-  padding: 10px 18px;
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
-}
+@keyframes fadeInQR { from {opacity:0; transform:scale(0.9);} to {opacity:1; transform:scale(1);} }
 
-.download-btn:hover { background: #1f5cd1; }
+.qr-container img { max-width: 100%; border-radius: 12px; }
+.download-btn { margin-top: 15px; background: var(--accent-color); color: #fff; padding: 10px 18px; border-radius: 8px; border: none; cursor: pointer; }
+.download-btn:hover { background: #1e3a80; }
+
+.preview-text { margin-top: 10px; font-size: 14px; color: #3b4b6b; }
+body.dark .preview-text { color: #ccd9ff; }
+
+.preview-favicon { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 14px; color: #3b4b6b; }
+.preview-favicon img { width: 18px; height: 18px; border-radius: 4px; }
+body.dark .preview-favicon { color: #ccd9ff; }
+
+.guide {
+  background: var(--card-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  padding: 25px 30px;
+  margin: 40px auto;
+  max-width: 760px;
+}
+.guide h2 { color: var(--accent-color); font-size: 20px; margin-bottom: 10px; }
+.guide ol { padding-left: 18px; line-height: 1.6; }
+.guide a { color: var(--accent-color); font-weight: 600; text-decoration: none; }
+.guide a:hover { text-decoration: underline; }
 
 footer {
   text-align: center;
@@ -132,68 +167,107 @@ footer {
   border-top: 1px solid #d9e2f0;
   margin-top: 50px;
 }
-
 body.dark footer { color: #aaa; border-color: #333; }
 </style>
 </head>
 
 <body>
 
+<div class="toggle-container">
+  <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Dark Mode / ☀️ Light Mode</button>
+</div>
+
+<h1 onclick="resetPage()">QR Կոդ Գեներատոր</h1>
+
+<p class="subtitle">Պարզ և արագ 🚀 Ստեղծիր քո QR կոդը՝ ցանկացած հղման կամ տեքստի համար ✅</p>
+
 <div class="container">
   <div class="section">
-    <h1 onclick="resetPage()">QR Կոդ Գեներատոր</h1>
-    <p class="subtitle">Պարզ և արագ 🚀 Ստեղծիր քո QR կոդը՝ ցանկացած հղման կամ տեքստի համար ✅</p>
-
+    <h2>Մուտքագրիր տեքստ կամ հղում</h2>
     <textarea id="text" rows="4" placeholder="Օրինակ՝ https://example.com"></textarea>
     <button onclick="generateQRCode()">Ստեղծել QR Կոդ</button>
-
     <div id="qr" class="qr-container"></div>
+    <div class="preview-text" id="preview"></div>
+    <div class="preview-favicon" id="faviconPreview"></div>
   </div>
+</div>
+
+<div class="guide">
+  <h2>📘 Ինչպես ստանալ ֆայլի հղումը Google Drive-ում</h2>
+  <ol>
+    <li>Բացիր <a href="https://drive.google.com" target="_blank">Google Drive</a>։</li>
+    <li>Սեղմիր “New → File Upload” և ընտրիր ֆայլը։</li>
+    <li>Ֆայլի վրա աջ կոճակ սեղմիր → “Get link”։</li>
+    <li>Փոխիր “Restricted” → “Anyone with the link”։</li>
+    <li>Պատճենիր հղումը և տեղադրիր վերևի դաշտում՝ QR կոդ ստանալու համար։</li>
+  </ol>
 </div>
 
 <footer>© Նախագծային աշխատանք</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+}
+
 function resetPage() {
   window.location.reload();
 }
 
-function generateQRCode() {
-  const input = document.getElementById("text").value.trim();
-  const container = document.getElementById("qr");
+function isShortURL(url) {
+  return /^(https?:\/\/)?(bit\.ly|tinyurl\.com|t\.co|goo\.gl)\/[a-zA-Z0-9]+$/.test(url);
+}
 
-  if(!input) { alert("Խնդրում ենք մուտքագրել տեքստ կամ հղում։"); return; }
-
-  container.innerHTML = "";
-  container.style.display = "flex";
-
-  new QRCode(container, {
-    text: input,
-    width: 220,
-    height: 220,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.H
-  });
-
-  // Add download button
-  const existingBtn = container.querySelector(".download-btn");
-  if(existingBtn) existingBtn.remove();
-
+function addDownloadButton(container, img) {
+  const existing = container.querySelector(".download-btn");
+  if (existing) existing.remove();
   const btn = document.createElement("button");
   btn.textContent = "Ներբեռնել QR Կոդը";
   btn.className = "download-btn";
   btn.onclick = () => {
-    const img = container.querySelector("img");
-    if(img){
-      const a = document.createElement("a");
-      a.href = img.src;
-      a.download = "qr-code.png";
-      a.click();
-    }
+    const a = document.createElement("a");
+    a.href = img.src;
+    a.download = "qr-code.png";
+    a.click();
   };
   container.appendChild(btn);
+}
+
+async function generateQRCode() {
+  const input = document.getElementById("text").value.trim();
+  const preview = document.getElementById("preview");
+  const faviconDiv = document.getElementById("faviconPreview");
+  if (!input) {
+    alert("Խնդրում ենք մուտքագրել Ձեր տեքստը կամ հղումը։");
+    return;
+  }
+
+  const container = document.getElementById("qr");
+  container.innerHTML = "";
+  container.style.display = "flex";
+
+  // QR կոդը ստեղծվում է միայն մեկ անգամ
+  new QRCode(container, { text: input, width: 280, height: 280, correctLevel: QRCode.CorrectLevel.H });
+
+  preview.textContent = "QR կոդը ստեղծված է ✓" + (isShortURL(input) ? " (Կարճ հղում)" : "");
+
+  faviconDiv.innerHTML = "";
+  try {
+    const url = new URL(input.startsWith("http") ? input : "https://" + input);
+    const faviconUrl = url.origin + "/favicon.ico";
+    const img = document.createElement("img");
+    img.src = faviconUrl;
+    img.onerror = () => { img.remove(); faviconDiv.textContent = url.origin; };
+    img.onload = () => { faviconDiv.textContent = ""; faviconDiv.appendChild(img); faviconDiv.appendChild(document.createTextNode(url.origin)); };
+  } catch(e) {
+    faviconDiv.textContent = input;
+  }
+
+  setTimeout(() => {
+    const img = container.querySelector("img");
+    if (img) addDownloadButton(container, img);
+  }, 300);
 }
 </script>
 
