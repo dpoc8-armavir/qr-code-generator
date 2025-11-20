@@ -4,88 +4,114 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QR Կոդ Գեներատոր</title>
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2910/2910791.png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
 <style>
+:root {
+  --bg-color: #e1e6f0;
+  --text-color: #1a1a1a;
+  --accent-color: #3366ff;
+  --card-bg: #ffffff;
+  --card-border: #4d80ff;
+}
+
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #1b1b1b, #2c2c2c);
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
+  background: linear-gradient(145deg, #e1e6f0 0%, #f5f7fc 50%, #dce4f7 100%);
+  color: var(--text-color);
+  transition: all 0.3s ease;
 }
 
-.container {
-  background: #1f1f1f;
-  border-radius: 20px;
+body.dark {
+  --bg-color: #10121e;
+  --text-color: #e0e8ff;
+  --accent-color: #3399ff;
+  --card-bg: #1b1f33;
+  --card-border: #3399ff;
+  background: linear-gradient(145deg, #0d0f1b 0%, #101227 50%, #0a0c17 100%);
+}
+
+.container { display: flex; justify-content: center; padding: 20px; }
+
+.section {
+  background: var(--card-bg);
+  border-radius: 24px;
   padding: 30px;
-  margin: 40px 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  max-width: 400px;
+  max-width: 460px;
   width: 100%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  border: 1.5px solid var(--card-border);
   text-align: center;
 }
 
 h1 {
-  font-size: 36px;
+  text-align: center;
+  font-size: 44px;
+  margin: 20px 0 10px 0;
   font-weight: 800;
-  color: #4da6ff;
-  margin-bottom: 10px;
+  color: var(--accent-color);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+  cursor: pointer;
 }
 
 .subtitle {
+  text-align: center;
+  color: #445b82;
   font-size: 16px;
-  margin-bottom: 25px;
-  color: #bbb;
+  margin-bottom: 30px;
 }
 
-input[type="text"] {
+textarea {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-  font-size: 15px;
+  padding: 14px;
+  font-size: 16px;
+  border: 2px solid var(--card-border);
+  border-radius: 14px;
   box-sizing: border-box;
+  resize: none;
+  transition: all 0.3s ease;
+  background: #f9fbff;
 }
+
+body.dark .section textarea { background: #2c3552; color: #fff; }
+textarea:focus { border-color: var(--accent-color); outline: none; }
 
 button {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
+  background: linear-gradient(90deg, #3366ff, #4d80ff);
+  color: #fff;
+  font-size: 17px;
   font-weight: 600;
   border: none;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #4da6ff, #3380ff);
-  color: #fff;
+  border-radius: 14px;
+  padding: 14px 26px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
 }
 
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-}
+button:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.15); }
 
-#qr {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
+.qr-container {
+  margin-top: 25px;
+  display: none;
+  flex-direction: column;
   align-items: center;
-  padding: 15px;
-  border-radius: 15px;
-  background: linear-gradient(135deg, #ffffff 0%, #cce0ff 100%);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  position: relative;
+  padding: 20px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #ffffff, #dce4f7);
+  border: 1.5px dashed var(--card-border);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
+
+body.dark .qr-container { background: #1b243b; }
 
 .download-btn {
   margin-top: 15px;
-  background: #4da6ff;
+  background: var(--accent-color);
   color: #fff;
   padding: 10px 18px;
   font-size: 15px;
@@ -96,50 +122,53 @@ button:hover {
   transition: 0.3s;
 }
 
-.download-btn:hover {
-  background: #3380ff;
-}
+.download-btn:hover { background: #1f5cd1; }
 
 footer {
   text-align: center;
+  color: #777;
   font-size: 14px;
-  color: #888;
-  margin-top: 30px;
+  padding: 20px;
+  border-top: 1px solid #d9e2f0;
+  margin-top: 50px;
 }
+
+body.dark footer { color: #aaa; border-color: #333; }
 </style>
 </head>
 
 <body>
+
 <div class="container">
-  <h1>QR Կոդ Գեներատոր</h1>
-  <p class="subtitle">Մուտքագրիր հղումը կամ տեքստը և ստացիր քո QR կոդը արագ և գեղեցիկ</p>
+  <div class="section">
+    <h1 onclick="resetPage()">QR Կոդ Գեներատոր</h1>
+    <p class="subtitle">Պարզ և արագ 🚀 Ստեղծիր քո QR կոդը՝ ցանկացած հղման կամ տեքստի համար ✅</p>
 
-  <input type="text" id="textInput" placeholder="Օրինակ՝ https://example.com">
-  <button onclick="generateQRCode()">Ստեղծել QR Կոդ</button>
+    <textarea id="text" rows="4" placeholder="Օրինակ՝ https://example.com"></textarea>
+    <button onclick="generateQRCode()">Ստեղծել QR Կոդ</button>
 
-  <div id="qr"></div>
+    <div id="qr" class="qr-container"></div>
+  </div>
 </div>
 
 <footer>© Նախագծային աշխատանք</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-let qr;
+function resetPage() {
+  window.location.reload();
+}
 
 function generateQRCode() {
-  const input = document.getElementById("textInput").value.trim();
+  const input = document.getElementById("text").value.trim();
   const container = document.getElementById("qr");
 
-  if (!input) {
-    alert("Խնդրում ենք մուտքագրել տեքստ կամ հղում։");
-    return;
-  }
+  if(!input) { alert("Խնդրում ենք մուտքագրել տեքստ կամ հղում։"); return; }
 
-  // Clear previous QR
   container.innerHTML = "";
+  container.style.display = "flex";
 
-  // Create QR
-  qr = new QRCode(container, {
+  new QRCode(container, {
     text: input,
     width: 220,
     height: 220,
@@ -157,7 +186,7 @@ function generateQRCode() {
   btn.className = "download-btn";
   btn.onclick = () => {
     const img = container.querySelector("img");
-    if(img) {
+    if(img){
       const a = document.createElement("a");
       a.href = img.src;
       a.download = "qr-code.png";
@@ -167,5 +196,6 @@ function generateQRCode() {
   container.appendChild(btn);
 }
 </script>
+
 </body>
 </html>
