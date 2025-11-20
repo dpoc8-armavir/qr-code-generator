@@ -4,24 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QR Կոդ Գեներատոր</title>
-<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2910/2910791.png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-
 <style>
-:root {
-  --bg-color: #f0f2f5;
-  --text-color: #1a1a1a;
-  --accent-color: #2b6cff;
-  --card-bg: #ffffff;
-  --card-border: #3a7fff;
-}
-
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(145deg, #e8ebf3 0%, #f5f7fc 50%, #dde4f7 100%);
-  color: var(--text-color);
+  background: linear-gradient(135deg, #1b1b1b, #2c2c2c);
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -29,38 +19,37 @@ body {
 }
 
 .container {
-  background: var(--card-bg);
+  background: #1f1f1f;
   border-radius: 20px;
   padding: 30px;
   margin: 40px 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  border: 1px solid var(--card-border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   max-width: 400px;
   width: 100%;
   text-align: center;
 }
 
 h1 {
-  font-size: 38px;
+  font-size: 36px;
   font-weight: 800;
-  color: var(--accent-color);
+  color: #4da6ff;
   margin-bottom: 10px;
 }
 
 .subtitle {
   font-size: 16px;
   margin-bottom: 25px;
-  color: #555;
+  color: #bbb;
 }
 
-input[type="text"], textarea {
+input[type="text"] {
   width: 100%;
   padding: 12px;
   margin-bottom: 15px;
   border-radius: 10px;
-  border: 1.5px solid var(--card-border);
-  font-size: 15px;
+  border: none;
   outline: none;
+  font-size: 15px;
   box-sizing: border-box;
 }
 
@@ -71,31 +60,32 @@ button {
   font-weight: 600;
   border: none;
   border-radius: 10px;
-  background: linear-gradient(90deg, #2b6cff, #3a7fff);
+  background: linear-gradient(90deg, #4da6ff, #3380ff);
   color: #fff;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
 }
 
 #qr {
   margin-top: 20px;
   display: flex;
   justify-content: center;
+  align-items: center;
   padding: 15px;
   border-radius: 15px;
-  background: #f5f7ff;
-  border: 1.5px dashed var(--card-border);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  background: linear-gradient(135deg, #ffffff 0%, #cce0ff 100%);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  position: relative;
 }
 
 .download-btn {
   margin-top: 15px;
-  background: #2b6cff;
+  background: #4da6ff;
   color: #fff;
   padding: 10px 18px;
   font-size: 15px;
@@ -107,7 +97,7 @@ button:hover {
 }
 
 .download-btn:hover {
-  background: #1f4fcc;
+  background: #3380ff;
 }
 
 footer {
@@ -122,7 +112,7 @@ footer {
 <body>
 <div class="container">
   <h1>QR Կոդ Գեներատոր</h1>
-  <p class="subtitle">Մուտքագրիր հղումը կամ տեքստը և ստացիր քո QR կոդը արագ և պարզ</p>
+  <p class="subtitle">Մուտքագրիր հղումը կամ տեքստը և ստացիր քո QR կոդը արագ և գեղեցիկ</p>
 
   <input type="text" id="textInput" placeholder="Օրինակ՝ https://example.com">
   <button onclick="generateQRCode()">Ստեղծել QR Կոդ</button>
@@ -145,10 +135,10 @@ function generateQRCode() {
     return;
   }
 
-  // Clear previous QR to avoid duplicates
+  // Clear previous QR
   container.innerHTML = "";
 
-  // Generate new QR
+  // Create QR
   qr = new QRCode(container, {
     text: input,
     width: 220,
@@ -158,8 +148,8 @@ function generateQRCode() {
     correctLevel: QRCode.CorrectLevel.H
   });
 
-  // Optional: Add download button
-  const existingBtn = document.querySelector(".download-btn");
+  // Add download button
+  const existingBtn = container.querySelector(".download-btn");
   if(existingBtn) existingBtn.remove();
 
   const btn = document.createElement("button");
@@ -177,6 +167,5 @@ function generateQRCode() {
   container.appendChild(btn);
 }
 </script>
-
 </body>
 </html>
