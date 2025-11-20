@@ -9,426 +9,174 @@
 
 <style>
 :root {
-  /* Մգացված պրոֆեսիոնալ գույներ */
-  --bg-gradient-1: #f2f4f8;
-  --bg-gradient-2: #eef1f8;
-  --muted-text: #2b3340;
-  --accent: #4054a8;        /* մեղմ մուգ կապույտ */
+  --bg-color: #f0f2f5;
+  --text-color: #1a1a1a;
+  --accent-color: #2b6cff;
   --card-bg: #ffffff;
-  --card-border: rgba(64,84,168,0.12);
-  --soft-shadow: 0 12px 32px rgba(20,30,60,0.08);
-  --inner-shadow: inset 0 6px 18px rgba(60,70,120,0.04);
-  --btn-from: #3550a5;
-  --btn-to: #5c6ff0;
-  --muted-border: rgba(34,46,80,0.06);
+  --card-border: #3a7fff;
 }
 
-* { box-sizing: border-box; }
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;
-  padding: 24px;
-  background: linear-gradient(145deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 50%, #e6eaf7 100%);
-  color: var(--muted-text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Toggle btn */
-.toggle-container { text-align: center; margin: 8px 0 18px 0; }
-.toggle-btn {
-  display: inline-block;
-  padding: 8px 14px;
-  font-size: 14px;
-  border-radius: 10px;
-  border: none;
-  background: linear-gradient(90deg, var(--btn-from), var(--btn-to));
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  box-shadow: 0 6px 20px rgba(53,80,165,0.14);
-}
-.toggle-btn:hover { transform: translateY(-2px); }
-
-/* Header */
-h1 {
-  text-align: center;
-  font-size: 44px;
-  margin: 8px 0 6px 0;
-  font-weight: 800;
-  color: var(--accent);
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-h1:hover { transform: scale(1.02); }
-
-.subtitle {
-  text-align: center;
-  color: #57657a;
-  font-size: 15px;
-  margin-bottom: 22px;
-}
-
-/* Layout container */
-.container {
+  padding: 0;
+  background: linear-gradient(145deg, #e8ebf3 0%, #f5f7fc 50%, #dde4f7 100%);
+  color: var(--text-color);
   display: flex;
   justify-content: center;
-  padding: 0 18px;
+  align-items: flex-start;
+  min-height: 100vh;
 }
 
-/* Card / Section */
-.section {
+.container {
   background: var(--card-bg);
-  border-radius: 18px;
-  padding: 28px;
-  max-width: 520px;
-  width: 100%;
-  box-shadow: var(--soft-shadow);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  border-radius: 20px;
+  padding: 30px;
+  margin: 40px 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   border: 1px solid var(--card-border);
-}
-.section:hover { transform: translateY(-6px); box-shadow: 0 18px 46px rgba(18,28,60,0.12); }
-
-.section h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--accent);
-  margin-bottom: 14px;
-}
-
-/* Textarea */
-.section textarea {
+  max-width: 400px;
   width: 100%;
-  padding: 14px;
-  font-size: 15px;
-  border: 1.5px solid var(--muted-border);
-  border-radius: 12px;
-  box-sizing: border-box;
-  resize: vertical;
-  transition: box-shadow 0.15s ease, border-color 0.15s ease;
-  background: linear-gradient(180deg,#ffffff,#fbfdff);
-  box-shadow: var(--inner-shadow);
-  color: var(--muted-text);
-}
-.section textarea:focus {
-  border-color: var(--accent);
-  box-shadow: 0 8px 26px rgba(61,84,165,0.10);
-  outline: none;
+  text-align: center;
 }
 
-/* Primary button */
-button.primary {
-  background: linear-gradient(90deg, var(--btn-from), var(--btn-to));
-  color: #fff;
+h1 {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--accent-color);
+  margin-bottom: 10px;
+}
+
+.subtitle {
   font-size: 16px;
-  font-weight: 700;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 18px;
+  margin-bottom: 25px;
+  color: #555;
+}
+
+input[type="text"], textarea {
   width: 100%;
-  margin-top: 12px;
-  cursor: pointer;
-  box-shadow: 0 8px 26px rgba(53,80,165,0.12);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-button.primary:hover { transform: translateY(-3px); }
-
-/* QR container */
-.qr-container {
-  margin-top: 20px;
-  display: none; /* initially hidden until QR created */
-  flex-direction: column;
-  align-items: center;
-  padding: 18px;
-  border-radius: 12px;
-  background: linear-gradient(180deg,#fbfcff,#f3f6ff);
-  border: 1.25px dashed var(--muted-border);
-  box-shadow: 0 10px 30px rgba(15,20,40,0.06);
-  animation: fadeInQR 0.45s ease-in-out;
-}
-@keyframes fadeInQR { from {opacity:0; transform:translateY(6px) scale(0.98);} to {opacity:1; transform:translateY(0) scale(1);} }
-
-.qr-frame {
   padding: 12px;
-  background: #fff;
+  margin-bottom: 15px;
   border-radius: 10px;
-  border: 1px solid rgba(20,24,40,0.04);
-  box-shadow: 0 8px 24px rgba(12,18,40,0.06);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  border: 1.5px solid var(--card-border);
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
 }
 
-/* make sure any stray anchors or text do not show */
-.qr-frame a { display: inline-block; text-decoration: none; }
-.qr-frame img { display:block; max-width:100%; height:auto; border-radius:6px; }
-
-/* download button */
-.download-btn {
-  margin-top: 14px;
-  padding: 10px 14px;
-  border-radius: 10px;
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
   border: none;
-  background: linear-gradient(90deg, #2f4fb1, #5565e6);
+  border-radius: 10px;
+  background: linear-gradient(90deg, #2b6cff, #3a7fff);
   color: #fff;
-  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 8px 22px rgba(50,70,160,0.12);
+  transition: all 0.3s ease;
 }
 
-/* Hide the preview text and favicon area if present */
-.preview-text, .preview-favicon { display: none; }
-
-/* Guide */
-.guide {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  box-shadow: 0 12px 32px rgba(12,18,40,0.04);
-  padding: 20px;
-  margin: 30px auto 0;
-  max-width: 760px;
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
-.guide h2 { color: var(--accent); font-size: 18px; margin-bottom: 8px; }
-.guide ol { padding-left: 18px; line-height: 1.6; }
-.guide a { color: var(--accent); font-weight: 600; text-decoration: none; }
-.guide a:hover { text-decoration: underline; }
 
-/* Footer */
+#qr {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  border-radius: 15px;
+  background: #f5f7ff;
+  border: 1.5px dashed var(--card-border);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.download-btn {
+  margin-top: 15px;
+  background: #2b6cff;
+  color: #fff;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.download-btn:hover {
+  background: #1f4fcc;
+}
+
 footer {
   text-align: center;
-  color: #7b8597;
-  font-size: 13px;
-  padding: 20px;
-  border-top: 1px solid rgba(20,24,40,0.04);
-  margin-top: 34px;
-}
-
-/* Dark mode tweaks */
-body.dark {
-  background: linear-gradient(145deg,#071028 0%, #081227 50%, #041022 100%);
-  color: #dbe8ff;
-}
-body.dark .section { background: #0f1730; border-color: rgba(90,120,200,0.08); box-shadow: 0 14px 36px rgba(0,0,0,0.6); }
-body.dark .section textarea { background: linear-gradient(180deg,#0c1328,#0b142f); color:#e7f0ff; border-color: rgba(100,130,220,0.08); }
-body.dark .qr-container { background: linear-gradient(180deg,#071026,#0b1530); border-color: rgba(100,130,220,0.06); }
-body.dark .qr-frame { background:#071026; border-color: rgba(100,130,220,0.04); box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
-body.dark .toggle-btn { box-shadow: 0 6px 18px rgba(30,50,130,0.2); }
-body.dark footer { color: #9fb3e6; border-top-color: rgba(90,120,200,0.04); }
-
-/* Responsive */
-@media (max-width:600px) {
-  h1 { font-size: 34px; }
-  .section { padding:18px; border-radius:14px; }
+  font-size: 14px;
+  color: #888;
+  margin-top: 30px;
 }
 </style>
 </head>
 
 <body>
-
-<div class="toggle-container">
-  <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Dark Mode / ☀️ Light Mode</button>
-</div>
-
-<!-- Վերնագիր՝ սեղմելու դեպքում էջը վերալցվում է -->
-<h1 onclick="resetPage()">QR Կոդ Գեներատոր</h1>
-
-<p class="subtitle">Պարզ և արագ 🚀 Ստեղծիր քո QR կոդը՝ ցանկացած հղման կամ տեքստի համար ✅</p>
-
 <div class="container">
-  <div class="section">
-    <h2>Մուտքագրիր տեքստ կամ հղում</h2>
-    <textarea id="text" rows="4" placeholder="Օրինակ՝ https://example.com"></textarea>
-    <button class="primary" id="generateBtn">Ստեղծել QR Կոդ</button>
+  <h1>QR Կոդ Գեներատոր</h1>
+  <p class="subtitle">Մուտքագրիր հղումը կամ տեքստը և ստացիր քո QR կոդը արագ և պարզ</p>
 
-    <div id="qr" class="qr-container" aria-live="polite">
-      <div class="qr-frame" id="qrFrame">
-        <!-- QR will be injected here -->
-        <div id="qrcode"></div>
-      </div>
-      <button id="downloadBtn" class="download-btn" style="display:none">Ներբեռնել QR</button>
-    </div>
+  <input type="text" id="textInput" placeholder="Օրինակ՝ https://example.com">
+  <button onclick="generateQRCode()">Ստեղծել QR Կոդ</button>
 
-    <!-- keep these hidden (for compatibility) -->
-    <div class="preview-text" id="preview"></div>
-    <div class="preview-favicon" id="faviconPreview"></div>
-  </div>
-</div>
-
-<div class="guide">
-  <h2>📘 Ինչպես ստանալ ֆայլի հղումը Google Drive-ում</h2>
-  <ol>
-    <li>Բացիր <a href="https://drive.google.com" target="_blank" rel="noopener">Google Drive</a>։</li>
-    <li>Սեղմիր “New → File Upload” և ընտրիր ֆայլը։</li>
-    <li>Ֆայլի վրա աջ կոճակ սեղմիր → “Get link”։</li>
-    <li>Փոխիր “Restricted” → “Anyone with the link”։</li>
-    <li>Պատճենիր հղումը և տեղադրիր վերևի դաշտում՝ QR կոդ ստանալու համար։</li>
-  </ol>
+  <div id="qr"></div>
 </div>
 
 <footer>© Նախագծային աշխատանք</footer>
 
-<!-- QR library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-/* Utility functions to ensure no stray blob: text or anchors remain,
-   and to convert canvas to <img> for reliable download. */
+let qr;
 
-function toggleDarkMode() {
-  document.body.classList.toggle('dark');
-}
-
-function resetPage() {
-  window.location.reload();
-}
-
-function clearQRContainer() {
-  const container = document.getElementById('qrcode');
-  container.innerHTML = '';
-  document.getElementById('qr').style.display = 'none';
-  document.getElementById('downloadBtn').style.display = 'none';
-  // hide preview fields too
-  document.getElementById('preview').textContent = '';
-  document.getElementById('faviconPreview').textContent = '';
-}
-
-/* Replace anchor-wrapped images or blob canvas with plain <img>, and remove stray text nodes */
-function normalizeQRCode(container) {
-  // If library wrapped in <a> with img or canvas -> unwrap
-  const anchor = container.querySelector('a');
-  if (anchor) {
-    const img = anchor.querySelector('img');
-    const canvas = anchor.querySelector('canvas');
-    if (img) {
-      anchor.replaceWith(img);
-    } else if (canvas) {
-      const newImg = document.createElement('img');
-      try {
-        newImg.src = canvas.toDataURL('image/png');
-        newImg.alt = 'QR code';
-        anchor.replaceWith(newImg);
-      } catch (e) {
-        // fallback: remove anchor, keep canvas (we will convert later if possible)
-        anchor.replaceWith(canvas);
-      }
-    } else {
-      // nothing useful inside anchor -> remove it
-      anchor.remove();
-    }
-  }
-
-  // If canvas exists directly, convert to img for easier download & avoidance of blob: text
-  const canvasDirect = container.querySelector('canvas');
-  if (canvasDirect) {
-    try {
-      const imgEl = document.createElement('img');
-      imgEl.src = canvasDirect.toDataURL('image/png');
-      imgEl.alt = 'QR code';
-      canvasDirect.replaceWith(imgEl);
-    } catch (e) {
-      // if toDataURL not allowed (cross-origin), leave as is
-    }
-  }
-
-  // Remove text nodes (like "blob:...") inside container
-  Array.from(container.childNodes).forEach(node => {
-    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
-      node.textContent = '';
-    }
-  });
-}
-
-/* Add download functionality when an <img> is present */
-function setupDownloadIfAvailable() {
-  const container = document.getElementById('qrcode');
-  const img = container.querySelector('img');
-  const downloadBtn = document.getElementById('downloadBtn');
-  if (img && img.src) {
-    downloadBtn.style.display = 'inline-block';
-    downloadBtn.onclick = () => {
-      const a = document.createElement('a');
-      a.href = img.src;
-      a.download = 'qr-code.png';
-      a.click();
-    };
-  } else {
-    // If no image, try to find canvas and convert (handled earlier). If still none, hide button.
-    downloadBtn.style.display = 'none';
-  }
-}
-
-/* Main: generate QR */
 function generateQRCode() {
-  const input = document.getElementById('text').value.trim();
+  const input = document.getElementById("textInput").value.trim();
+  const container = document.getElementById("qr");
+
   if (!input) {
-    alert('Խնդրում ենք մուտքագրել Ձեր տեքստը կամ հղումը։');
+    alert("Խնդրում ենք մուտքագրել տեքստ կամ հղում։");
     return;
   }
 
-  const containerParent = document.getElementById('qr');
-  const container = document.getElementById('qrcode');
+  // Clear previous QR to avoid duplicates
+  container.innerHTML = "";
 
-  // Clear previous
-  container.innerHTML = '';
-  document.getElementById('downloadBtn').style.display = 'none';
+  // Generate new QR
+  qr = new QRCode(container, {
+    text: input,
+    width: 220,
+    height: 220,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
 
-  // Show container
-  containerParent.style.display = 'flex';
+  // Optional: Add download button
+  const existingBtn = document.querySelector(".download-btn");
+  if(existingBtn) existingBtn.remove();
 
-  // Generate QR (qrcodejs may produce <img> or <canvas> and sometimes wrap in <a>)
-  try {
-    new QRCode(container, {
-      text: input,
-      width: 280,
-      height: 280,
-      colorDark: "#1f2130", // muted dark color
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
-    });
-  } catch (e) {
-    console.error('QR generation failed:', e);
-    alert('QR erzeugen fehlgeschlagen — փորձեք կրկին։');
-    return;
-  }
-
-  // Small delay to allow rendering, then normalize & setup download
-  setTimeout(() => {
-    normalizeQRCode(container);
-
-    // remove stray attributes or titles on images that may reveal blob URLs
-    const imgs = container.querySelectorAll('img');
-    imgs.forEach(img => {
-      img.removeAttribute('title');
-      img.removeAttribute('alt');
-      // If an image src begins with "blob:", still keep but hide any text nodes present (we removed above).
-      // We also attempt to inline canvas->dataURL earlier to avoid blob urls when possible.
-    });
-
-    setupDownloadIfAvailable();
-
-    // Hide preview text and favicon preview (we keep UI clean as requested)
-    const preview = document.getElementById('preview');
-    const faviconPreview = document.getElementById('faviconPreview');
-    if (preview) preview.style.display = 'none';
-    if (faviconPreview) faviconPreview.style.display = 'none';
-
-  }, 160);
+  const btn = document.createElement("button");
+  btn.textContent = "Ներբեռնել QR Կոդը";
+  btn.className = "download-btn";
+  btn.onclick = () => {
+    const img = container.querySelector("img");
+    if(img) {
+      const a = document.createElement("a");
+      a.href = img.src;
+      a.download = "qr-code.png";
+      a.click();
+    }
+  };
+  container.appendChild(btn);
 }
-
-/* wire up events */
-document.getElementById('generateBtn').addEventListener('click', generateQRCode);
-
-/* allow ctrl/cmd+enter to generate */
-document.getElementById('text').addEventListener('keydown', (e) => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-    generateQRCode();
-  }
-});
-
-/* download button exists in DOM but hidden until image available */
-
-/* optional: clear behavior when double-clicking title */
-document.querySelector('h1').addEventListener('dblclick', resetPage);
 </script>
+
 </body>
 </html>
