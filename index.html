@@ -1,404 +1,434 @@
 <!DOCTYPE html>
 <html lang="hy">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QR Կոդ Գեներատոր</title>
 <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2910/2910791.png">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --page-bg: #f3f4f8;
+:root {
+  /* Մգացված պրոֆեսիոնալ գույներ */
+  --bg-gradient-1: #f2f4f8;
+  --bg-gradient-2: #eef1f8;
+  --muted-text: #2b3340;
+  --accent: #4054a8;        /* մեղմ մուգ կապույտ */
   --card-bg: #ffffff;
-  --muted-text: #5a6170;
-  --main-text: #111827;
-  --accent: #3b4db7;        /* muted blue */
-  --card-border: rgba(59,77,183,0.12);
-  --soft-shadow: 0 14px 40px rgba(20,24,40,0.08);
-  --inner-shadow: inset 0 6px 18px rgba(60,70,140,0.04);
-  --btn-grad-from: #3b4db7;
-  --btn-grad-to: #6b5fd6;
-  --download-btn-bg: linear-gradient(90deg,var(--btn-grad-from),var(--btn-grad-to));
+  --card-border: rgba(64,84,168,0.12);
+  --soft-shadow: 0 12px 32px rgba(20,30,60,0.08);
+  --inner-shadow: inset 0 6px 18px rgba(60,70,120,0.04);
+  --btn-from: #3550a5;
+  --btn-to: #5c6ff0;
+  --muted-border: rgba(34,46,80,0.06);
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  min-height:100%;
-  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: linear-gradient(180deg,#f6f7fb 0%,var(--page-bg) 100%);
-  color:var(--main-text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  padding:28px;
+* { box-sizing: border-box; }
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 24px;
+  background: linear-gradient(145deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 50%, #e6eaf7 100%);
+  color: var(--muted-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* layout */
-.wrapper{
-  max-width:920px;
-  margin:24px auto;
-  display:grid;
-  grid-template-columns:1fr 380px;
-  gap:26px;
-  align-items:start;
+/* Toggle btn */
+.toggle-container { text-align: center; margin: 8px 0 18px 0; }
+.toggle-btn {
+  display: inline-block;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(90deg, var(--btn-from), var(--btn-to));
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(53,80,165,0.14);
+}
+.toggle-btn:hover { transform: translateY(-2px); }
+
+/* Header */
+h1 {
+  text-align: center;
+  font-size: 44px;
+  margin: 8px 0 6px 0;
+  font-weight: 800;
+  color: var(--accent);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+h1:hover { transform: scale(1.02); }
+
+.subtitle {
+  text-align: center;
+  color: #57657a;
+  font-size: 15px;
+  margin-bottom: 22px;
 }
 
-/* left panel */
-.card{
-  background:var(--card-bg);
-  border-radius:14px;
-  padding:22px;
-  border:1px solid var(--card-border);
-  box-shadow:var(--soft-shadow);
+/* Layout container */
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 0 18px;
 }
 
-.header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:14px;
+/* Card / Section */
+.section {
+  background: var(--card-bg);
+  border-radius: 18px;
+  padding: 28px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: var(--soft-shadow);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  border: 1px solid var(--card-border);
 }
-.title{
-  display:flex;
-  gap:12px;
-  align-items:center;
-}
-.title h1{
-  margin:0;
-  font-size:20px;
-  letter-spacing:0.2px;
-  color:var(--accent);
-  font-weight:700;
-}
-.subtitle{font-size:13px;color:var(--muted-text);margin:6px 0 0}
+.section:hover { transform: translateY(-6px); box-shadow: 0 18px 46px rgba(18,28,60,0.12); }
 
-/* controls */
-.input-area textarea{
-  width:100%;
-  min-height:140px;
-  resize:vertical;
-  padding:12px 14px;
-  border-radius:10px;
-  border:1px solid rgba(20,25,40,0.06);
-  background:linear-gradient(180deg,#ffffff,#fbfbff);
-  font-size:15px;
-  color:var(--main-text);
-  box-shadow:var(--inner-shadow);
-}
-.controls{
-  display:flex;
-  gap:12px;
-  margin-top:12px;
+.section h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 14px;
 }
 
-/* primary button */
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:11px 14px;
-  border-radius:10px;
-  border:none;
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
-  background:var(--download-btn-bg);
-  box-shadow: 0 6px 18px rgba(59,77,183,0.14);
-  transition:transform .12s ease, box-shadow .12s ease;
+/* Textarea */
+.section textarea {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  border: 1.5px solid var(--muted-border);
+  border-radius: 12px;
+  box-sizing: border-box;
+  resize: vertical;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  background: linear-gradient(180deg,#ffffff,#fbfdff);
+  box-shadow: var(--inner-shadow);
+  color: var(--muted-text);
 }
-.btn:hover{ transform:translateY(-3px); box-shadow:0 10px 26px rgba(59,77,183,0.18); }
-
-/* secondary (ghost) */
-.btn-ghost{
-  background:transparent;
-  border:1px solid rgba(20,24,40,0.06);
-  color:var(--main-text);
-  font-weight:600;
-  border-radius:10px;
-  padding:10px 12px;
-  cursor:pointer;
+.section textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 8px 26px rgba(61,84,165,0.10);
+  outline: none;
 }
 
-/* right panel */
-.preview-card{
-  background:linear-gradient(180deg,#fbfbff,#f6f7ff);
-  border-radius:14px;
-  padding:20px;
-  border:1px solid var(--card-border);
-  box-shadow:var(--soft-shadow);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:14px;
+/* Primary button */
+button.primary {
+  background: linear-gradient(90deg, var(--btn-from), var(--btn-to));
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 18px;
+  width: 100%;
+  margin-top: 12px;
+  cursor: pointer;
+  box-shadow: 0 8px 26px rgba(53,80,165,0.12);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
+button.primary:hover { transform: translateY(-3px); }
 
-/* QR frame */
-.qr-frame{
+/* QR container */
+.qr-container {
+  margin-top: 20px;
+  display: none; /* initially hidden until QR created */
+  flex-direction: column;
+  align-items: center;
+  padding: 18px;
+  border-radius: 12px;
+  background: linear-gradient(180deg,#fbfcff,#f3f6ff);
+  border: 1.25px dashed var(--muted-border);
+  box-shadow: 0 10px 30px rgba(15,20,40,0.06);
+  animation: fadeInQR 0.45s ease-in-out;
+}
+@keyframes fadeInQR { from {opacity:0; transform:translateY(6px) scale(0.98);} to {opacity:1; transform:translateY(0) scale(1);} }
+
+.qr-frame {
+  padding: 12px;
   background: #fff;
-  padding:18px;
-  border-radius:12px;
-  border:1px solid rgba(20,24,40,0.04);
-  min-width:220px;
-  min-height:220px;
+  border-radius: 10px;
+  border: 1px solid rgba(20,24,40,0.04);
+  box-shadow: 0 8px 24px rgba(12,18,40,0.06);
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow: 0 8px 30px rgba(18,24,40,0.06);
 }
-.qr-frame img{ max-width:100%; height:auto; display:block; border-radius:6px; }
 
-/* small info */
-.preview-origin{ font-size:13px; color:var(--muted-text); text-align:center; }
+/* make sure any stray anchors or text do not show */
+.qr-frame a { display: inline-block; text-decoration: none; }
+.qr-frame img { display:block; max-width:100%; height:auto; border-radius:6px; }
 
-/* download button below QR */
-.download-area{ width:100%; display:flex; gap:10px; align-items:center; justify-content:center; }
+/* download button */
+.download-btn {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(90deg, #2f4fb1, #5565e6);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(50,70,160,0.12);
+}
 
-/* hidden elements for accessibility or internal use */
-#qr-download{ display:none; }
+/* Hide the preview text and favicon area if present */
+.preview-text, .preview-favicon { display: none; }
 
-/* small responsive */
-@media (max-width:880px){
-  .wrapper{ grid-template-columns: 1fr; padding:0 12px; }
-  .preview-card{ order:-1; }
+/* Guide */
+.guide {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(12,18,40,0.04);
+  padding: 20px;
+  margin: 30px auto 0;
+  max-width: 760px;
+}
+.guide h2 { color: var(--accent); font-size: 18px; margin-bottom: 8px; }
+.guide ol { padding-left: 18px; line-height: 1.6; }
+.guide a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.guide a:hover { text-decoration: underline; }
+
+/* Footer */
+footer {
+  text-align: center;
+  color: #7b8597;
+  font-size: 13px;
+  padding: 20px;
+  border-top: 1px solid rgba(20,24,40,0.04);
+  margin-top: 34px;
+}
+
+/* Dark mode tweaks */
+body.dark {
+  background: linear-gradient(145deg,#071028 0%, #081227 50%, #041022 100%);
+  color: #dbe8ff;
+}
+body.dark .section { background: #0f1730; border-color: rgba(90,120,200,0.08); box-shadow: 0 14px 36px rgba(0,0,0,0.6); }
+body.dark .section textarea { background: linear-gradient(180deg,#0c1328,#0b142f); color:#e7f0ff; border-color: rgba(100,130,220,0.08); }
+body.dark .qr-container { background: linear-gradient(180deg,#071026,#0b1530); border-color: rgba(100,130,220,0.06); }
+body.dark .qr-frame { background:#071026; border-color: rgba(100,130,220,0.04); box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+body.dark .toggle-btn { box-shadow: 0 6px 18px rgba(30,50,130,0.2); }
+body.dark footer { color: #9fb3e6; border-top-color: rgba(90,120,200,0.04); }
+
+/* Responsive */
+@media (max-width:600px) {
+  h1 { font-size: 34px; }
+  .section { padding:18px; border-radius:14px; }
 }
 </style>
 </head>
+
 <body>
 
-<div class="wrapper">
-  <!-- Left: controls -->
-  <div class="card">
-    <div class="header">
-      <div class="title">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <rect x="3" y="3" width="6" height="6" rx="1.2" fill="#6b5fd6"></rect>
-          <rect x="15" y="3" width="6" height="6" rx="1.2" fill="#3b4db7"></rect>
-          <rect x="3" y="15" width="6" height="6" rx="1.2" fill="#3b4db7"></rect>
-          <rect x="15" y="15" width="6" height="6" rx="1.2" fill="#6b5fd6"></rect>
-        </svg>
-        <div>
-          <h1>QR Կոդ Գեներատոր</h1>
-          <div class="subtitle">Մուտքագրիր տեքստ կամ հղում — ստեղծիր պրոֆեսիոնալ QR</div>
-        </div>
+<div class="toggle-container">
+  <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Dark Mode / ☀️ Light Mode</button>
+</div>
+
+<!-- Վերնագիր՝ սեղմելու դեպքում էջը վերալցվում է -->
+<h1 onclick="resetPage()">QR Կոդ Գեներատոր</h1>
+
+<p class="subtitle">Պարզ և արագ 🚀 Ստեղծիր քո QR կոդը՝ ցանկացած հղման կամ տեքստի համար ✅</p>
+
+<div class="container">
+  <div class="section">
+    <h2>Մուտքագրիր տեքստ կամ հղում</h2>
+    <textarea id="text" rows="4" placeholder="Օրինակ՝ https://example.com"></textarea>
+    <button class="primary" id="generateBtn">Ստեղծել QR Կոդ</button>
+
+    <div id="qr" class="qr-container" aria-live="polite">
+      <div class="qr-frame" id="qrFrame">
+        <!-- QR will be injected here -->
+        <div id="qrcode"></div>
       </div>
-
-      <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn-ghost" id="clearBtn" title="Очистить">Ջնջել</button>
-      </div>
+      <button id="downloadBtn" class="download-btn" style="display:none">Ներբեռնել QR</button>
     </div>
 
-    <div class="input-area">
-      <textarea id="inputText" placeholder="Օրինակ՝ https://example.com կամ ցանկացած պարզ տեքստ"></textarea>
-
-      <div class="controls">
-        <button class="btn" id="generateBtn">Ստեղծել QR</button>
-        <button class="btn-ghost" id="toggleDark">Մութ/Բաց ռեժիմ</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Right: preview & download -->
-  <div class="preview-card">
-    <div class="qr-frame" id="qrFrame" aria-live="polite">
-      <!-- QR will be injected here -->
-      <div id="qrcode"></div>
-    </div>
-
-    <div class="preview-origin" id="previewOrigin" style="display:none;"></div>
-
-    <div class="download-area">
-      <button class="btn" id="downloadBtn" style="display:none">Ներբեռնել PNG</button>
-      <button class="btn-ghost" id="sizeBtn">Չափ — <span id="sizeVal">200</span>px</button>
-    </div>
+    <!-- keep these hidden (for compatibility) -->
+    <div class="preview-text" id="preview"></div>
+    <div class="preview-favicon" id="faviconPreview"></div>
   </div>
 </div>
 
+<div class="guide">
+  <h2>📘 Ինչպես ստանալ ֆայլի հղումը Google Drive-ում</h2>
+  <ol>
+    <li>Բացիր <a href="https://drive.google.com" target="_blank" rel="noopener">Google Drive</a>։</li>
+    <li>Սեղմիր “New → File Upload” և ընտրիր ֆայլը։</li>
+    <li>Ֆայլի վրա աջ կոճակ սեղմիր → “Get link”։</li>
+    <li>Փոխիր “Restricted” → “Anyone with the link”։</li>
+    <li>Պատճենիր հղումը և տեղադրիր վերևի դաշտում՝ QR կոդ ստանալու համար։</li>
+  </ol>
+</div>
+
+<footer>© Նախագծային աշխատանք</footer>
+
 <!-- QR library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 <script>
-/* Elements */
-const input = document.getElementById('inputText');
-const genBtn = document.getElementById('generateBtn');
-const qrcodeWrap = document.getElementById('qrcode');
-const qrFrame = document.getElementById('qrFrame');
-const downloadBtn = document.getElementById('downloadBtn');
-const previewOrigin = document.getElementById('previewOrigin');
-const clearBtn = document.getElementById('clearBtn');
-const toggleDark = document.getElementById('toggleDark');
-const sizeBtn = document.getElementById('sizeBtn');
-const sizeVal = document.getElementById('sizeVal');
+/* Utility functions to ensure no stray blob: text or anchors remain,
+   and to convert canvas to <img> for reliable download. */
 
-let qrInstance = null;
-let qrSize = 200;
-
-/* Helper: remove previous qr */
-function clearQR(){
-  qrcodeWrap.innerHTML = '';
-  previewOrigin.style.display = 'none';
-  downloadBtn.style.display = 'none';
+function toggleDarkMode() {
+  document.body.classList.toggle('dark');
 }
 
-/* Helper: unwrap <a> if library wraps image into anchor (avoid blob: text visibility) */
-function unwrapAnchorIfNeeded(container){
-  // If first child is an anchor and it contains an img, replace anchor with img
-  const a = container.querySelector('a');
-  if(a){
-    const img = a.querySelector('img');
-    if(img){
-      // remove anchor and put img directly
-      a.replaceWith(img);
-    } else {
-      // if anchor has canvas (some builds), try to extract dataURL from canvas
-      const canvas = a.querySelector('canvas');
-      if(canvas){
-        // convert canvas to img
-        const imgEl = document.createElement('img');
-        imgEl.src = canvas.toDataURL('image/png');
-        imgEl.alt = 'QR code';
-        a.replaceWith(imgEl);
+function resetPage() {
+  window.location.reload();
+}
+
+function clearQRContainer() {
+  const container = document.getElementById('qrcode');
+  container.innerHTML = '';
+  document.getElementById('qr').style.display = 'none';
+  document.getElementById('downloadBtn').style.display = 'none';
+  // hide preview fields too
+  document.getElementById('preview').textContent = '';
+  document.getElementById('faviconPreview').textContent = '';
+}
+
+/* Replace anchor-wrapped images or blob canvas with plain <img>, and remove stray text nodes */
+function normalizeQRCode(container) {
+  // If library wrapped in <a> with img or canvas -> unwrap
+  const anchor = container.querySelector('a');
+  if (anchor) {
+    const img = anchor.querySelector('img');
+    const canvas = anchor.querySelector('canvas');
+    if (img) {
+      anchor.replaceWith(img);
+    } else if (canvas) {
+      const newImg = document.createElement('img');
+      try {
+        newImg.src = canvas.toDataURL('image/png');
+        newImg.alt = 'QR code';
+        anchor.replaceWith(newImg);
+      } catch (e) {
+        // fallback: remove anchor, keep canvas (we will convert later if possible)
+        anchor.replaceWith(canvas);
       }
+    } else {
+      // nothing useful inside anchor -> remove it
+      anchor.remove();
     }
   }
 
-  // If QR library used canvas directly, convert to image for download convenience
-  const canvas = container.querySelector('canvas');
-  if(canvas){
-    const img = document.createElement('img');
-    img.src = canvas.toDataURL('image/png');
-    img.alt = 'QR code';
-    canvas.replaceWith(img);
+  // If canvas exists directly, convert to img for easier download & avoidance of blob: text
+  const canvasDirect = container.querySelector('canvas');
+  if (canvasDirect) {
+    try {
+      const imgEl = document.createElement('img');
+      imgEl.src = canvasDirect.toDataURL('image/png');
+      imgEl.alt = 'QR code';
+      canvasDirect.replaceWith(imgEl);
+    } catch (e) {
+      // if toDataURL not allowed (cross-origin), leave as is
+    }
   }
-}
 
-/* Generate QR */
-function generateQR(text){
-  if(!text) return;
-
-  // Clear existing
-  clearQR();
-
-  // Create QR using qrcodejs
-  qrInstance = new QRCode(qrcodeWrap, {
-    text: text,
-    width: qrSize,
-    height: qrSize,
-    colorDark: "#1b203b",   // muted dark
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.H
+  // Remove text nodes (like "blob:...") inside container
+  Array.from(container.childNodes).forEach(node => {
+    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
+      node.textContent = '';
+    }
   });
-
-  // Small timeout to allow library to render (image or canvas)
-  setTimeout(() => {
-    unwrapAnchorIfNeeded(qrcodeWrap);
-
-    // Show download button if an <img> exists
-    const img = qrcodeWrap.querySelector('img');
-    if(img){
-      downloadBtn.style.display = 'inline-flex';
-      downloadBtn.onclick = () => {
-        // create link and click
-        const a = document.createElement('a');
-        a.href = img.src;
-        a.download = 'qr-code.png';
-        a.click();
-      };
-    } else {
-      // if no img present, maybe canvas was produced earlier but we replaced it - handle again
-      const finalImg = qrcodeWrap.querySelector('img');
-      if(finalImg){
-        downloadBtn.style.display = 'inline-flex';
-        downloadBtn.onclick = () => {
-          const a = document.createElement('a');
-          a.href = finalImg.src;
-          a.download = 'qr-code.png';
-          a.click();
-        };
-      } else {
-        downloadBtn.style.display = 'none';
-      }
-    }
-
-    // Hide any stray text nodes inside container (robustness)
-    Array.from(qrcodeWrap.childNodes).forEach(node => {
-      if(node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== ''){
-        node.textContent = ''; // remove stray text like "blob:..."
-      }
-    });
-
-    // Optionally show origin (we keep hidden as user requested no extra text)
-    previewOrigin.style.display = 'none';
-  }, 120);
 }
 
-/* Event listeners */
-genBtn.addEventListener('click', ()=>{
-  const txt = input.value.trim();
-  if(!txt){
-    alert('Խնդրում ենք մուտքագրեք տեքստ կամ հղում։');
+/* Add download functionality when an <img> is present */
+function setupDownloadIfAvailable() {
+  const container = document.getElementById('qrcode');
+  const img = container.querySelector('img');
+  const downloadBtn = document.getElementById('downloadBtn');
+  if (img && img.src) {
+    downloadBtn.style.display = 'inline-block';
+    downloadBtn.onclick = () => {
+      const a = document.createElement('a');
+      a.href = img.src;
+      a.download = 'qr-code.png';
+      a.click();
+    };
+  } else {
+    // If no image, try to find canvas and convert (handled earlier). If still none, hide button.
+    downloadBtn.style.display = 'none';
+  }
+}
+
+/* Main: generate QR */
+function generateQRCode() {
+  const input = document.getElementById('text').value.trim();
+  if (!input) {
+    alert('Խնդրում ենք մուտքագրել Ձեր տեքստը կամ հղումը։');
     return;
   }
-  generateQR(txt);
-});
 
-clearBtn.addEventListener('click', ()=>{
-  input.value = '';
-  clearQR();
-});
+  const containerParent = document.getElementById('qr');
+  const container = document.getElementById('qrcode');
 
-toggleDark.addEventListener('click', ()=>{
-  document.body.classList.toggle('dark-mode');
-  // Simple color shift for dark mode (override CSS variables by inline style)
-  if(document.body.classList.contains('dark-mode')){
-    document.documentElement.style.setProperty('--page-bg', '#0b1630');
-    document.documentElement.style.setProperty('--card-bg', '#0f1724');
-    document.documentElement.style.setProperty('--main-text', '#e6eefc');
-    document.documentElement.style.setProperty('--muted-text', '#9fb0d6');
-    document.documentElement.style.setProperty('--card-border', 'rgba(120,140,220,0.06)');
-    document.documentElement.style.setProperty('--btn-grad-from', '#2b3f8f');
-    document.documentElement.style.setProperty('--btn-grad-to', '#4760b8');
-  } else {
-    document.documentElement.style.removeProperty('--page-bg');
-    document.documentElement.style.removeProperty('--card-bg');
-    document.documentElement.style.removeProperty('--main-text');
-    document.documentElement.style.removeProperty('--muted-text');
-    document.documentElement.style.removeProperty('--card-border');
-    document.documentElement.style.removeProperty('--btn-grad-from');
-    document.documentElement.style.removeProperty('--btn-grad-to');
+  // Clear previous
+  container.innerHTML = '';
+  document.getElementById('downloadBtn').style.display = 'none';
+
+  // Show container
+  containerParent.style.display = 'flex';
+
+  // Generate QR (qrcodejs may produce <img> or <canvas> and sometimes wrap in <a>)
+  try {
+    new QRCode(container, {
+      text: input,
+      width: 280,
+      height: 280,
+      colorDark: "#1f2130", // muted dark color
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  } catch (e) {
+    console.error('QR generation failed:', e);
+    alert('QR erzeugen fehlgeschlagen — փորձեք կրկին։');
+    return;
+  }
+
+  // Small delay to allow rendering, then normalize & setup download
+  setTimeout(() => {
+    normalizeQRCode(container);
+
+    // remove stray attributes or titles on images that may reveal blob URLs
+    const imgs = container.querySelectorAll('img');
+    imgs.forEach(img => {
+      img.removeAttribute('title');
+      img.removeAttribute('alt');
+      // If an image src begins with "blob:", still keep but hide any text nodes present (we removed above).
+      // We also attempt to inline canvas->dataURL earlier to avoid blob urls when possible.
+    });
+
+    setupDownloadIfAvailable();
+
+    // Hide preview text and favicon preview (we keep UI clean as requested)
+    const preview = document.getElementById('preview');
+    const faviconPreview = document.getElementById('faviconPreview');
+    if (preview) preview.style.display = 'none';
+    if (faviconPreview) faviconPreview.style.display = 'none';
+
+  }, 160);
+}
+
+/* wire up events */
+document.getElementById('generateBtn').addEventListener('click', generateQRCode);
+
+/* allow ctrl/cmd+enter to generate */
+document.getElementById('text').addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    generateQRCode();
   }
 });
 
-/* Size toggle: cycle 150 -> 200 -> 300 */
-sizeBtn.addEventListener('click', ()=>{
-  if(qrSize === 150) qrSize = 200;
-  else if(qrSize === 200) qrSize = 300;
-  else qrSize = 150;
-  sizeVal.textContent = qrSize;
-  // regenerate if there is content
-  const txt = input.value.trim();
-  if(txt) generateQR(txt);
-});
+/* download button exists in DOM but hidden until image available */
 
-/* Keyboard: Ctrl+Enter generate */
-input.addEventListener('keydown', (e)=>{
-  if((e.ctrlKey || e.metaKey) && e.key === 'Enter'){
-    genBtn.click();
-  }
-});
-
-/* Accessibility: support dropping a URL/text onto textarea */
-input.addEventListener('drop', (e)=>{
-  e.preventDefault();
-  const txt = (e.dataTransfer.getData('text/plain') || '').trim();
-  if(txt) input.value = txt;
-});
-
-/* Prevent default dragover */
-input.addEventListener('dragover', e => e.preventDefault());
+/* optional: clear behavior when double-clicking title */
+document.querySelector('h1').addEventListener('dblclick', resetPage);
 </script>
 </body>
 </html>
